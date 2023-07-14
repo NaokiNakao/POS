@@ -7,16 +7,16 @@ import java.util.Optional;
  * @author Naoki Nakao on 7/13/2023
  * @project POS
  */
-public interface DAO<T, S> {
+public interface DAO<T, ID> {
 
     List<T> findAll();
 
-    Optional<T> findById(S id);
+    Optional<T> findById(ID id);
 
     T insert(T t);
 
-    T update(S id, T t);
+    T update(ID id, T t);
 
-    Boolean delete(S id);
+    Boolean delete(ID id);
 
 }
