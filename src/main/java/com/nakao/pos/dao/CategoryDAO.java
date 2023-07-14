@@ -21,7 +21,7 @@ import static com.nakao.pos.util.sql.CategorySQL.INSERT_CATEGORY;
 @RequiredArgsConstructor
 public class CategoryDAO implements DAO<Category, String> {
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbc;
 
     @Override
     public List<Category> findAll() {
@@ -44,7 +44,7 @@ public class CategoryDAO implements DAO<Category, String> {
                 .addValue("id", newCategory.getId())
                 .addValue("name", newCategory.getName());
 
-        jdbcTemplate.update(INSERT_CATEGORY, parameters);
+        jdbc.update(INSERT_CATEGORY, parameters);
 
         return newCategory;
     }
