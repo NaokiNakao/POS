@@ -61,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
                 repository.deleteById(id);
             }
             else {
-                throw new CategoryDeletionException("Unable to delete category");
+                throw new CategoryDeletionException("Unable to delete category. One or more products are associated with this category.");
             }
         }
         else {
