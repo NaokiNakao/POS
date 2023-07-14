@@ -35,3 +35,22 @@ VALUES ('PRO000009', 'Lawn Mower', 'CAT000004', 40, 5, 149.99, 179.99);
 
 INSERT INTO product (id, name, category, stock, min_stock, acquisition_cost, selling_price)
 VALUES ('PRO000010', 'Plunger', 'CAT000002', 60, 10, 4.99, 7.99);
+
+-- Supplier insertions
+
+-- Supplier insertions
+INSERT INTO supplier (id, name, address, contact)
+VALUES ('SUP000001', 'Supplier 1', 'Address 1', 'Contact 1');
+
+INSERT INTO supplier (id, name, address, contact)
+VALUES ('SUP000002', 'Supplier 2', 'Address 2', 'Contact 2');
+
+INSERT INTO supplier (id, name, address, contact)
+VALUES ('SUP000003', 'Supplier 3', 'Address 3', 'Contact 3');
+
+INSERT INTO supplier (id, name, address, contact)
+VALUES ('SUP000004', 'Supplier 4', 'Address 4', 'Contact 4');
+
+INSERT INTO supplier (id, name, address, contact)
+VALUES ('SUP000005', 'Supplier 5', 'Address 5', 'Contact 5');
+

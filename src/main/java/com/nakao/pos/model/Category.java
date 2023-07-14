@@ -25,6 +25,6 @@ public class Category {
     private String id;
     private String name;
 
-    public final static String ID_PATTERN = "CAT######";
+    public static final String ID_PATTERN = "CAT######";
 
 }

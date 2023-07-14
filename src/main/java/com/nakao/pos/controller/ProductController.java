@@ -2,7 +2,6 @@ package com.nakao.pos.controller;
 
 import com.nakao.pos.model.Product;
 import com.nakao.pos.service.ProductService;
-import com.nakao.pos.util.exception.CategoryNotFoundException;
 import com.nakao.pos.util.exception.ProductDeletionException;
 import com.nakao.pos.util.exception.ProductNotFoundException;
 import jakarta.validation.Valid;

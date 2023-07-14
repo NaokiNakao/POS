@@ -2,6 +2,7 @@
 
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS supplier;
 
 -- Category table
 
@@ -22,3 +23,13 @@ CREATE TABLE product (
     selling_price    NUMERIC(10, 2) NOT NULL,
     FOREIGN KEY (category) REFERENCES category(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+-- Supplier table
+
+CREATE TABLE supplier (
+    id      VARCHAR(9) PRIMARY KEY,
+    name    VARCHAR(50) NOT NULL ,
+    address VARCHAR(50) NOT NULL ,
+    contact VARCHAR(20) NOT NULL
+);
+
