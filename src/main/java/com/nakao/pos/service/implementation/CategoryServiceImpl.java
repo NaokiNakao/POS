@@ -54,8 +54,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(String id) {
-        if (repository.existsById(id)) {
-            if (validCategoryDeletion()) {
+        Optional<Category> category = repository.findById(id);
+
+        if (category.isPresent()) {
+            if (validCategoryDeletion(category.get())) {
                 repository.deleteById(id);
             }
             else {
@@ -67,8 +69,14 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    private Boolean validCategoryDeletion() {
-        return true;
+    private Boolean validCategoryDeletion(Category category) {
+        boolean valid = false;
+
+        if (dao.getProductCountByCategoryId(category.getId()) == 0) {
+            valid = true;
+        }
+
+        return valid;
     }
 
 }

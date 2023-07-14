@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.nakao.pos.util.sql.CategorySQL.INSERT_CATEGORY;
+import static com.nakao.pos.util.sql.CategorySQL.PRODUCT_COUNT_BY_CATEGORY;
 
 /**
  * @author Naoki Nakao on 7/13/2023
@@ -57,6 +58,13 @@ public class CategoryDAO implements DAO<Category, String> {
     @Override
     public Boolean delete(String id) {
         return null;
+    }
+
+    public Integer getProductCountByCategoryId(String categoryId) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("categoryId", categoryId);
+
+        return jdbc.queryForObject(PRODUCT_COUNT_BY_CATEGORY, parameters, Integer.class);
     }
 
 }
