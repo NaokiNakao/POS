@@ -21,11 +21,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @Table(name = "item")
-public class Item {
+public class CartItem {
 
     @Id
     private UUID code;
     private String product;
-    private String order;
+    private UUID cart;
 
 }

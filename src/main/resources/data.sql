@@ -101,19 +101,19 @@ INSERT INTO customer (id, first_name, last_name, phone, address, birthday)
 VALUES ('CUS000005', 'Aiden', 'Davis', '2345678901', '901 Maple Ave', '1998-12-05');
 
 -- Order insertions
-INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
 VALUES (gen_random_uuid(), '2023-01-15', 100.00, 10.00, 110.00, 'CASH', 'IN_PROGRESS', 'CUS000001', 'EMP000001');
 
-INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
 VALUES (gen_random_uuid(), '2023-02-20', 50.00, 5.00, 55.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000002', 'EMP000002');
 
-INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
 VALUES (gen_random_uuid(), '2023-03-10', 80.00, 8.00, 88.00, 'DEBT_CARD', 'IN_PROGRESS', 'CUS000003', 'EMP000003');
 
-INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
 VALUES (gen_random_uuid(), '2023-04-05', 120.00, 12.00, 132.00, 'CASH', 'IN_PROGRESS', 'CUS000004', 'EMP000004');
 
-INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
 VALUES (gen_random_uuid(), '2023-05-12', 70.00, 7.00, 77.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000005', 'EMP000005');
 
 

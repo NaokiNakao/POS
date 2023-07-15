@@ -22,8 +22,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-@Table(name = "item_order")
-public class Order {
+@Table(name = "cart")
+public class Cart {
 
     @Id
     private UUID id;
