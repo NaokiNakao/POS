@@ -20,4 +20,6 @@ public class ProductSQL {
 
     public static final String DELETE_PRODUCT = "DELETE FROM product WHERE id = :id";
 
+    public static final String ADD_STOCK_QUANTITY = "UPDATE product SET stock = stock + :quantity WHERE id = :id";
+
 }

@@ -2,9 +2,9 @@ package com.nakao.pos.dao;
 
 import com.nakao.pos.model.Product;
 import com.nakao.pos.util.IdentifierGenerator;
-import com.nakao.pos.util.mapper.ProductRowMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class ProductDAO implements DAO<Product, String> {
 
     @Override
     public List<Product> findAll() {
-        return jdbc.query(SELECT_PRODUCTS, new ProductRowMapper());
+        return jdbc.query(SELECT_PRODUCTS, new BeanPropertyRowMapper<>(Product.class));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ProductDAO implements DAO<Product, String> {
                 .addValue("id", id);
 
         try {
-            product = jdbc.queryForObject(SELECT_PRODUCT, parameters, new ProductRowMapper());
+            product = jdbc.queryForObject(SELECT_PRODUCT, parameters, new BeanPropertyRowMapper<>(Product.class));
         }
         catch (EmptyResultDataAccessException e) {
             product = null;
@@ -60,7 +60,6 @@ public class ProductDAO implements DAO<Product, String> {
     public Product update(String id, Product product) {
         product.setId(id);
         MapSqlParameterSource parameters = getSqlParameterSource(product);
-        parameters.addValue("id", id);
 
         jdbc.update(UPDATE_PRODUCT, parameters);
 
@@ -73,6 +72,14 @@ public class ProductDAO implements DAO<Product, String> {
                 .addValue("id", id);
 
         return jdbc.update(DELETE_PRODUCT, parameters) == 1;
+    }
+
+    public void addStockQuantity(String id, Integer quantity) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("quantity", quantity);
+
+        jdbc.update(ADD_STOCK_QUANTITY, parameters);
     }
 
     private MapSqlParameterSource getSqlParameterSource(Product product) {

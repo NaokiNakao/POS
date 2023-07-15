@@ -25,4 +25,6 @@ public interface ProductService {
 
     void deleteProduct(String id);
 
+    void productReplenishment(String id, Integer quantity);
+
 }

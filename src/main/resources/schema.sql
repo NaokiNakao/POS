@@ -1,5 +1,6 @@
 -------------------- POS Database --------------------
 
+DROP TABLE IF EXISTS restock;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
@@ -31,5 +32,19 @@ CREATE TABLE supplier (
     name    VARCHAR(50) NOT NULL ,
     address VARCHAR(50) NOT NULL ,
     contact VARCHAR(20) NOT NULL
+);
+
+-- Restock table
+
+CREATE TABLE restock (
+    id               UUID PRIMARY KEY,
+    delivery_date    DATE,
+    product          VARCHAR(9) NOT NULL,
+    product_quantity INTEGER NOT NULL,
+    supplier         VARCHAR(9) NOT NULL ,
+    status           VARCHAR(20) NOT NULL,
+    CONSTRAINT chk_restock_status CHECK ( status IN ('IN_PROGRESS', 'DELIVERED', 'CANCELLED') ),
+    FOREIGN KEY (product) REFERENCES product(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (supplier) REFERENCES supplier(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

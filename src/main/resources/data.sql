@@ -37,8 +37,6 @@ INSERT INTO product (id, name, category, stock, min_stock, acquisition_cost, sel
 VALUES ('PRO000010', 'Plunger', 'CAT000002', 60, 10, 4.99, 7.99);
 
 -- Supplier insertions
-
--- Supplier insertions
 INSERT INTO supplier (id, name, address, contact)
 VALUES ('SUP000001', 'Supplier 1', 'Address 1', 'Contact 1');
 
@@ -53,4 +51,21 @@ VALUES ('SUP000004', 'Supplier 4', 'Address 4', 'Contact 4');
 
 INSERT INTO supplier (id, name, address, contact)
 VALUES ('SUP000005', 'Supplier 5', 'Address 5', 'Contact 5');
+
+-- Restock insertions
+INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
+VALUES (gen_random_uuid(), '2023-07-01', 'PRO000001', 100, 'SUP000001', 'IN_PROGRESS');
+
+INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
+VALUES (gen_random_uuid(), '2023-07-02', 'PRO000002', 50, 'SUP000002', 'DELIVERED');
+
+INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
+VALUES (gen_random_uuid(), '2023-07-03', 'PRO000003', 80, 'SUP000003', 'IN_PROGRESS');
+
+INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
+VALUES (gen_random_uuid(), '2023-07-04', 'PRO000004', 60, 'SUP000004', 'CANCELLED');
+
+INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
+VALUES (gen_random_uuid(), '2023-07-05', 'PRO000005', 90, 'SUP000005', 'IN_PROGRESS');
+
 
