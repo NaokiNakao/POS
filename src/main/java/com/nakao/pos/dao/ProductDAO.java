@@ -74,14 +74,6 @@ public class ProductDAO implements DAO<Product, String> {
         return jdbc.update(DELETE_PRODUCT, parameters) == 1;
     }
 
-    public void addStockQuantity(String id, Integer quantity) {
-        MapSqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", id)
-                .addValue("quantity", quantity);
-
-        jdbc.update(ADD_STOCK_QUANTITY, parameters);
-    }
-
     private MapSqlParameterSource getSqlParameterSource(Product product) {
         return new MapSqlParameterSource()
                 .addValue("id", product.getId())

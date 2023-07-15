@@ -86,6 +86,14 @@ public class RestockDAO implements DAO<Restock, UUID> {
         jdbc.update(UPDATE_STATUS, parameters);
     }
 
+    public void updateProductStock(String productId, Integer quantity) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("productId", productId)
+                .addValue("quantity", quantity);
+
+        jdbc.update(UPDATE_PRODUCT_STOCK, parameters);
+    }
+
     private MapSqlParameterSource getSqlParameterSource(Restock restock) {
         return new MapSqlParameterSource()
                 .addValue("id", restock.getId())

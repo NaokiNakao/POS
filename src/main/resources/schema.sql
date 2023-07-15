@@ -20,7 +20,7 @@ CREATE TABLE product (
     category         VARCHAR(9) NOT NULL,
     stock            INTEGER DEFAULT 0,
     min_stock        INTEGER DEFAULT 0,
-    acquisition_cost NUMERIC(10, 2) NOT NULL ,
+    acquisition_cost NUMERIC(10, 2) NOT NULL,
     selling_price    NUMERIC(10, 2) NOT NULL,
     FOREIGN KEY (category) REFERENCES category(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
@@ -29,8 +29,8 @@ CREATE TABLE product (
 
 CREATE TABLE supplier (
     id      VARCHAR(9) PRIMARY KEY,
-    name    VARCHAR(50) NOT NULL ,
-    address VARCHAR(50) NOT NULL ,
+    name    VARCHAR(50) NOT NULL,
+    address VARCHAR(50) NOT NULL,
     contact VARCHAR(20) NOT NULL
 );
 
@@ -41,10 +41,15 @@ CREATE TABLE restock (
     delivery_date    DATE,
     product          VARCHAR(9) NOT NULL,
     product_quantity INTEGER NOT NULL,
-    supplier         VARCHAR(9) NOT NULL ,
-    status           VARCHAR(20) NOT NULL,
-    CONSTRAINT chk_restock_status CHECK ( status IN ('IN_PROGRESS', 'DELIVERED', 'CANCELLED') ),
+    supplier         VARCHAR(9) NOT NULL,
+    status           VARCHAR(15) NOT NULL,
+    CONSTRAINT chk_restock_status CHECK ( status IN ('PENDING', 'PROCESSED', 'CANCELLED') ),
     FOREIGN KEY (product) REFERENCES product(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (supplier) REFERENCES supplier(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+
+
+
+
 

@@ -2,7 +2,6 @@ package com.nakao.pos.service.implementation;
 
 import com.nakao.pos.dao.RestockDAO;
 import com.nakao.pos.model.Restock;
-import com.nakao.pos.service.ProductService;
 import com.nakao.pos.service.RestockService;
 import com.nakao.pos.util.enumeration.RestockStatus;
 import com.nakao.pos.util.exception.RestockNotFoundException;
@@ -24,7 +23,6 @@ import java.util.UUID;
 public class RestockServiceImpl implements RestockService {
 
     private final RestockDAO dao;
-    private final ProductService productService;
 
     @Override
     public List<Restock> getRestocks() {
@@ -62,13 +60,20 @@ public class RestockServiceImpl implements RestockService {
         }
     }
 
+    /**
+     * Processes the inventory restock with the specified ID.
+     * Updates the restocking status to "PROCESSED" and updates the product stock.
+     *
+     * @param id the ID of the inventory restock to process
+     * @throws RestockProcessingException if unable to process the restocking
+     */
     @Override
     public void restockProcessing(UUID id) {
         Restock restock = getRestockById(id);
 
-        if (restock.getStatus().equals(RestockStatus.IN_PROGRESS.getStatus())) {
-            productService.productReplenishment(restock.getProduct(), restock.getProductQuantity());
-            dao.updateStatus(restock.getId(), RestockStatus.DELIVERED);
+        if (restock.getStatus().equals(RestockStatus.PENDING.getStatus())) {
+            dao.updateStatus(restock.getId(), RestockStatus.PROCESSED);
+            dao.updateProductStock(restock.getProduct(), restock.getProductQuantity());
         }
         else {
             throw new RestockProcessingException("Unable to process restock");

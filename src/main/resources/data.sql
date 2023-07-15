@@ -54,18 +54,18 @@ VALUES ('SUP000005', 'Supplier 5', 'Address 5', 'Contact 5');
 
 -- Restock insertions
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-01', 'PRO000001', 100, 'SUP000001', 'IN_PROGRESS');
+VALUES (gen_random_uuid(), '2023-07-01', 'PRO000001', 100, 'SUP000001', 'PENDING');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-02', 'PRO000002', 50, 'SUP000002', 'DELIVERED');
+VALUES (gen_random_uuid(), '2023-07-02', 'PRO000002', 50, 'SUP000002', 'PROCESSED');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-03', 'PRO000003', 80, 'SUP000003', 'IN_PROGRESS');
+VALUES (gen_random_uuid(), '2023-07-03', 'PRO000003', 80, 'SUP000003', 'PENDING');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
 VALUES (gen_random_uuid(), '2023-07-04', 'PRO000004', 60, 'SUP000004', 'CANCELLED');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-05', 'PRO000005', 90, 'SUP000005', 'IN_PROGRESS');
+VALUES (gen_random_uuid(), '2023-07-05', 'PRO000005', 90, 'SUP000005', 'PENDING');
 
 

@@ -6,8 +6,8 @@ package com.nakao.pos.util.enumeration;
  */
 public enum RestockStatus {
 
-    IN_PROGRESS("IN_PROGRESS"),
-    DELIVERED("DELIVERED"),
+    PENDING("PENDING"),
+    PROCESSED("PROCESSED"),
     CANCELLED("CANCELLED");
 
     private final String status;

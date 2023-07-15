@@ -1,6 +1,7 @@
 package com.nakao.pos.service;
 
 import com.nakao.pos.model.Restock;
+import com.nakao.pos.util.exception.RestockProcessingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,13 @@ public interface RestockService {
 
     void deleteRestock(UUID id);
 
+    /**
+     * Processes the inventory restock with the specified ID.
+     * Updates the restocking status to "PROCESSED" and updates the product stock.
+     *
+     * @param id the ID of the inventory restock to process
+     * @throws RestockProcessingException if unable to process the restocking
+     */
     void restockProcessing(UUID id);
 
 }

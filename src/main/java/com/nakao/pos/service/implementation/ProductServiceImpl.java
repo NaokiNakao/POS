@@ -63,11 +63,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
-    public void productReplenishment(String id, Integer quantity) {
-        dao.addStockQuantity(id, quantity);
-    }
-
     private boolean validProductDeletion() {
         return true;
     }
