@@ -1,9 +1,13 @@
 -------------------- POS Database --------------------
 
+DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS item_order;
 DROP TABLE IF EXISTS restock;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS supplier;
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS customer;
 
 -- Category table
 
@@ -43,9 +47,60 @@ CREATE TABLE restock (
     product_quantity INTEGER NOT NULL,
     supplier         VARCHAR(9) NOT NULL,
     status           VARCHAR(15) NOT NULL,
-    CONSTRAINT chk_restock_status CHECK ( status IN ('PENDING', 'PROCESSED', 'CANCELLED') ),
+    CONSTRAINT CK_restock_status CHECK ( status IN ('PENDING', 'PROCESSED', 'CANCELLED') ),
     FOREIGN KEY (product) REFERENCES product(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (supplier) REFERENCES supplier(id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Employee table
+
+CREATE TABLE employee (
+    id         VARCHAR(9) PRIMARY KEY,
+    first_name VARCHAR (50) NOT NULL,
+    last_name  VARCHAR(50) NOT NULL,
+    email      VARCHAR(255) NOT NULL,
+    password   VARCHAR(255) NOT NULL,
+    phone      VARCHAR(20),
+    CONSTRAINT UQ_employee_email UNIQUE (email)
+);
+
+-- Customer table
+
+CREATE TABLE customer (
+    id         VARCHAR(9) PRIMARY KEY,
+    first_name VARCHAR (50) NOT NULL,
+    last_name  VARCHAR(50) NOT NULL,
+    phone      VARCHAR(20),
+    address    VARCHAR(50),
+    birthday   DATE
+);
+
+-- Order table
+
+CREATE TABLE item_order (
+    id             UUID PRIMARY KEY,
+    date           DATE,
+    net            DECIMAL(10, 2) DEFAULT 0.00,
+    tax            DECIMAL(10, 2) DEFAULT 0.00,
+    total          DECIMAL(10, 2) DEFAULT 0.00,
+    payment_method VARCHAR(15) NOT NULL DEFAULT 'CASH',
+    status         VARCHAR(15) NOT NULL DEFAULT 'IN_PROGRESS',
+    customer       VARCHAR(9),
+    employee       VARCHAR(9) NOT NULL,
+    FOREIGN KEY (customer) REFERENCES customer(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (employee) REFERENCES employee(id) ON DELETE NO ACTION ON UPDATE CASCADE,
+    CONSTRAINT CK_order_payment_method CHECK ( payment_method IN ('CASH', 'DEBT_CARD', 'CREDIT_CARD') ),
+    CONSTRAINT CK_order_status CHECK ( status IN ('IN_PROGRESS', 'COMPLETED') )
+);
+
+-- Item table
+
+CREATE TABLE item (
+    code       UUID PRIMARY KEY,
+    product_id VARCHAR(9) NOT NULL,
+    order_id   UUID NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES item_order(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

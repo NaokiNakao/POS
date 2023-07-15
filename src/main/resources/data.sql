@@ -68,4 +68,53 @@ VALUES (gen_random_uuid(), '2023-07-04', 'PRO000004', 60, 'SUP000004', 'CANCELLE
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
 VALUES (gen_random_uuid(), '2023-07-05', 'PRO000005', 90, 'SUP000005', 'PENDING');
 
+-- Employee insertions
+INSERT INTO employee (id, first_name, last_name, email, password, phone)
+VALUES ('EMP000001', 'John', 'Doe', 'john.doe@example.com', 'password123', '1234567890');
+
+INSERT INTO employee (id, first_name, last_name, email, password, phone)
+VALUES ('EMP000002', 'Jane', 'Smith', 'jane.smith@example.com', 'password456', '9876543210');
+
+INSERT INTO employee (id, first_name, last_name, email, password, phone)
+VALUES ('EMP000003', 'Michael', 'Johnson', 'michael.johnson@example.com', 'password789', '4567890123');
+
+INSERT INTO employee (id, first_name, last_name, email, password, phone)
+VALUES ('EMP000004', 'Sarah', 'Williams', 'sarah.williams@example.com', 'passwordabc', '8901234567');
+
+INSERT INTO employee (id, first_name, last_name, email, password, phone)
+VALUES ('EMP000005', 'David', 'Brown', 'david.brown@example.com', 'passwordxyz', '2345678901');
+
+-- Customer insertions
+INSERT INTO customer (id, first_name, last_name, phone, address, birthday)
+VALUES ('CUS000001', 'Emily', 'Johnson', '1234567890', '123 Main St', '1990-05-15');
+
+INSERT INTO customer (id, first_name, last_name, phone, address, birthday)
+VALUES ('CUS000002', 'Daniel', 'Smith', '9876543210', '456 Oak Ave', '1985-10-12');
+
+INSERT INTO customer (id, first_name, last_name, phone, address, birthday)
+VALUES ('CUS000003', 'Sophia', 'Brown', '4567890123', '789 Elm Rd', '1995-07-20');
+
+INSERT INTO customer (id, first_name, last_name, phone, address, birthday)
+VALUES ('CUS000004', 'Olivia', 'Williams', '8901234567', '567 Pine St', '1992-03-28');
+
+INSERT INTO customer (id, first_name, last_name, phone, address, birthday)
+VALUES ('CUS000005', 'Aiden', 'Davis', '2345678901', '901 Maple Ave', '1998-12-05');
+
+-- Order insertions
+INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+VALUES (gen_random_uuid(), '2023-01-15', 100.00, 10.00, 110.00, 'CASH', 'IN_PROGRESS', 'CUS000001', 'EMP000001');
+
+INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+VALUES (gen_random_uuid(), '2023-02-20', 50.00, 5.00, 55.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000002', 'EMP000002');
+
+INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+VALUES (gen_random_uuid(), '2023-03-10', 80.00, 8.00, 88.00, 'DEBT_CARD', 'IN_PROGRESS', 'CUS000003', 'EMP000003');
+
+INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+VALUES (gen_random_uuid(), '2023-04-05', 120.00, 12.00, 132.00, 'CASH', 'IN_PROGRESS', 'CUS000004', 'EMP000004');
+
+INSERT INTO item_order (id, date, net, tax, total, payment_method, status, customer, employee)
+VALUES (gen_random_uuid(), '2023-05-12', 70.00, 7.00, 77.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000005', 'EMP000005');
+
+
 

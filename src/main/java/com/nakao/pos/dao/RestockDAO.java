@@ -39,9 +39,6 @@ public class RestockDAO implements DAO<Restock, UUID> {
 
         try {
             restock = jdbc.queryForObject(SELECT_RESTOCK, parameters, new BeanPropertyRowMapper<>(Restock.class));
-            if (restock != null) {
-                restock.setId(id);
-            }
         }
         catch (EmptyResultDataAccessException e) {
             restock = null;
