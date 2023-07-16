@@ -2,6 +2,7 @@ package com.nakao.pos.controller;
 
 import com.nakao.pos.model.Restock;
 import com.nakao.pos.service.RestockService;
+import com.nakao.pos.util.exception.RestockDeletionException;
 import com.nakao.pos.util.exception.RestockNotFoundException;
 import com.nakao.pos.util.exception.RestockProcessingException;
 import jakarta.validation.Valid;
@@ -58,8 +59,12 @@ public class RestockController {
         try {
             restockService.deleteRestock(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (RestockNotFoundException e) {
+        }
+        catch (RestockNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        catch (RestockDeletionException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

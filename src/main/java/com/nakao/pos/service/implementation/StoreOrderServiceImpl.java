@@ -121,23 +121,17 @@ public class StoreOrderServiceImpl implements StoreOrderService {
     }
 
     private Boolean isStoreOrderInProgress(String storeOrderStatus) {
-        boolean valid = false;
+        boolean isInProgress = false;
 
         if (storeOrderStatus.equals(StoreOrderStatus.IN_PROGRESS.getStatus())) {
-            valid = true;
+            isInProgress = true;
         }
 
-        return valid;
+        return isInProgress;
     }
 
     private Boolean isProductAvailable(String productId) {
-        boolean available = false;
-
-        if (repository.getProductStock(productId) > 0) {
-            available = true;
-        }
-
-        return available;
+        return repository.getProductStock(productId) > 0;
     }
 
     private OrderItem generateOrderItem(String productId, UUID orderId) {

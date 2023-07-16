@@ -4,6 +4,7 @@ import com.nakao.pos.repository.RestockRepository;
 import com.nakao.pos.model.Restock;
 import com.nakao.pos.service.RestockService;
 import com.nakao.pos.util.enumeration.RestockStatus;
+import com.nakao.pos.util.exception.RestockDeletionException;
 import com.nakao.pos.util.exception.RestockNotFoundException;
 import com.nakao.pos.util.exception.RestockProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -52,9 +53,15 @@ public class RestockServiceImpl implements RestockService {
 
     @Override
     public void deleteRestock(UUID id) {
-        if (repository.findById(id).isPresent()) {
-            // TODO: Implement validation
-            repository.delete(id);
+        Optional<Restock> restock = repository.findById(id);
+
+        if (restock.isPresent()) {
+            if (isRestockPending(restock.get().getStatus())) {
+                repository.delete(id);
+            }
+            else {
+                throw new RestockDeletionException("Unable to delete restock");
+            }
         }
         else {
             throw new RestockNotFoundException("Restock not found");
@@ -79,6 +86,10 @@ public class RestockServiceImpl implements RestockService {
         else {
             throw new RestockProcessingException("Unable to process restock");
         }
+    }
+
+    private Boolean isRestockPending(String restockStatus) {
+        return restockStatus.equals(RestockStatus.PENDING.getStatus());
     }
 
 }
