@@ -5,6 +5,7 @@ import com.nakao.pos.model.StoreOrder;
 import com.nakao.pos.model.OrderItem;
 import com.nakao.pos.service.StoreOrderService;
 import com.nakao.pos.util.enumeration.StoreOrderStatus;
+import com.nakao.pos.util.exception.AlreadyProcessedException;
 import com.nakao.pos.util.exception.StoreOrderDeletionException;
 import com.nakao.pos.util.exception.StoreOrderNotFoundException;
 import com.nakao.pos.util.exception.NotAvailableProductException;
@@ -57,7 +58,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
         Optional<StoreOrder> order = dao.findById(id);
 
         if (order.isPresent()) {
-            if (validStoreOrderDeletion(order.get())) {
+            if (isStoreOrderInProgress(order.get().getStatus())) {
                 dao.delete(id);
             }
             else {
@@ -72,15 +73,19 @@ public class StoreOrderServiceImpl implements StoreOrderService {
     @Override
     public OrderItem addOrderItem(String productId, UUID orderId) {
         if (isProductAvailable(productId)) {
-            // TODO: Verify if the order is already PROCESSED
-            OrderItem orderItem = OrderItem.builder()
-                    .product(productId)
-                    .storeOrder(orderId)
-                    .build();
+            if (isStoreOrderInProgress(getOrderById(orderId).getStatus())) {
+                OrderItem orderItem = OrderItem.builder()
+                        .product(productId)
+                        .storeOrder(orderId)
+                        .build();
 
-            OrderItem addedOrderItem = dao.addItem(orderItem);
-            dao.orderPriceUpdateProcedure(orderId);
-            return addedOrderItem;
+                OrderItem addedOrderItem = dao.addItem(orderItem);
+                dao.orderPriceUpdateProcedure(orderId);
+                return addedOrderItem;
+            }
+            else {
+                throw new AlreadyProcessedException("Error: The order is already processed. Not longer able to add items");
+            }
         }
         else {
             throw new NotAvailableProductException("Product not available");
@@ -98,10 +103,10 @@ public class StoreOrderServiceImpl implements StoreOrderService {
         dao.processOrder(id);
     }
 
-    private Boolean validStoreOrderDeletion(StoreOrder storeOrder) {
+    private Boolean isStoreOrderInProgress(String storeOrderStatus) {
         boolean valid = false;
 
-        if (storeOrder.getStatus().equals(StoreOrderStatus.IN_PROGRESS.getStatus())) {
+        if (storeOrderStatus.equals(StoreOrderStatus.IN_PROGRESS.getStatus())) {
             valid = true;
         }
 
