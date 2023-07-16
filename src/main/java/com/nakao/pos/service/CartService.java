@@ -31,4 +31,6 @@ public interface CartService {
 
     void removeCartItem(String productId, UUID cartId);
 
+    // TODO: cartProcessing method
+
 }

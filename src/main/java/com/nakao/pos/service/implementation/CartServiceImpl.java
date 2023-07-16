@@ -70,6 +70,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartItem addToCart(String productId, UUID cartId) {
+        // TODO: Verify product existence, throw exception if not found
+
         CartItem cartItem = CartItem.builder()
                 .product(productId)
                 .cart(cartId)
@@ -92,5 +94,7 @@ public class CartServiceImpl implements CartService {
 
         return valid;
     }
+
+    // TODO: Create logic to calculate Cart total
 
 }
