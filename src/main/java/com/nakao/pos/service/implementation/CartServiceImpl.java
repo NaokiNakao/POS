@@ -77,7 +77,9 @@ public class CartServiceImpl implements CartService {
                     .cart(cartId)
                     .build();
 
-            return dao.addItem(cartItem);
+            CartItem addedCartItem = dao.addItem(cartItem);
+            dao.cartPriceUpdateProcedure(cartId);
+            return addedCartItem;
         }
         else {
             throw new NotAvailableProductException("Product not available");
@@ -108,7 +110,5 @@ public class CartServiceImpl implements CartService {
 
         return available;
     }
-
-    // TODO: Create logic to calculate Cart total
 
 }

@@ -23,4 +23,16 @@ public class CartSQL {
     public static final String REMOVE_ITEM = "DELETE FROM cart_item WHERE product = :product AND cart = :cart AND code = " +
             "(SELECT code FROM cart_item WHERE product = :product LIMIT 1)";
 
+    public static final String UPDATE_NET = "UPDATE cart SET net = (SELECT SUM(p.selling_price) AS net " +
+            "FROM cart c " +
+            "JOIN cart_item ci ON c.id = ci.cart " +
+            "JOIN product p ON ci.product = p.id " +
+            "WHERE c.id = :id " +
+            "GROUP BY c.id) " +
+            "WHERE id = :id";
+
+    public static final String UPDATE_TAX = "UPDATE cart SET tax = (net * 0.10) WHERE id = :id";
+
+    public static final String UPDATE_TOTAL = "UPDATE cart SET total = (net + tax) WHERE id = :id";
+
 }

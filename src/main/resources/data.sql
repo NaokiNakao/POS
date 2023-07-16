@@ -102,7 +102,7 @@ VALUES ('CUS000005', 'Aiden', 'Davis', '2345678901', '901 Maple Ave', '1998-12-0
 
 -- Order insertions
 INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
-VALUES ('10000000-0000-0000-0000-000000000001', '2023-01-15', 100.00, 10.00, 110.00, 'CASH', 'IN_PROGRESS', 'CUS000001', 'EMP000001');
+VALUES ('10000000-0000-0000-0000-000000000001', '2023-01-15', 0, 0, 0, 'CASH', 'IN_PROGRESS', 'CUS000001', 'EMP000001');
 
 INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
 VALUES ('10000000-0000-0000-0000-000000000002', '2023-02-20', 50.00, 5.00, 55.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000002', 'EMP000002');
