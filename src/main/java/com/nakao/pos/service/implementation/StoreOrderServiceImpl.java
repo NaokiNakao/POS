@@ -74,12 +74,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
     public OrderItem addOrderItem(String productId, UUID orderId) {
         if (isProductAvailable(productId)) {
             if (isStoreOrderInProgress(getOrderById(orderId).getStatus())) {
-                OrderItem orderItem = OrderItem.builder()
-                        .product(productId)
-                        .storeOrder(orderId)
-                        .build();
-
-                OrderItem addedOrderItem = dao.addItem(orderItem);
+                OrderItem addedOrderItem = dao.addItem(generateOrderItem(productId, orderId));
                 dao.orderPriceUpdateProcedure(orderId);
                 return addedOrderItem;
             }
@@ -121,6 +116,13 @@ public class StoreOrderServiceImpl implements StoreOrderService {
         }
 
         return available;
+    }
+
+    private OrderItem generateOrderItem(String productId, UUID orderId) {
+        return OrderItem.builder()
+                .product(productId)
+                .storeOrder(orderId)
+                .build();
     }
 
 }
