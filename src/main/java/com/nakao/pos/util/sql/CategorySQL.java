@@ -6,8 +6,14 @@ package com.nakao.pos.util.sql;
  */
 public class CategorySQL {
 
+    public static final String SELECT_CATEGORIES = "SELECT * FROM category";
+
+    public static final String SELECT_CATEGORY = "SELECT * FROM category WHERE id = :id";
+
     public static final String INSERT_CATEGORY = "INSERT INTO category (id, name) VALUES (:id, :name)";
 
-    public static final String PRODUCT_COUNT_BY_CATEGORY = "SELECT COUNT(*) FROM product WHERE category = :categoryId";
+    public static final String UPDATE_CATEGORY = "UPDATE category SET name = :name WHERE id = :id";
+
+    public static final String DELETE_CATEGORY = "DELETE FROM category WHERE id = :id";
 
 }

@@ -53,6 +53,7 @@ public class RestockServiceImpl implements RestockService {
     @Override
     public void deleteRestock(UUID id) {
         if (dao.findById(id).isPresent()) {
+            // TODO: Implement validation
             dao.delete(id);
         }
         else {

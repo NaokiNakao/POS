@@ -2,7 +2,6 @@ package com.nakao.pos.service.implementation;
 
 import com.nakao.pos.dao.SupplierDAO;
 import com.nakao.pos.model.Supplier;
-import com.nakao.pos.repository.SupplierRepository;
 import com.nakao.pos.service.SupplierService;
 import com.nakao.pos.util.exception.SupplierDeletionException;
 import com.nakao.pos.util.exception.SupplierNotFoundException;
@@ -21,17 +20,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SupplierServiceImpl implements SupplierService {
 
-    private final SupplierRepository repository;
     private final SupplierDAO dao;
 
     @Override
     public List<Supplier> getSuppliers() {
-        return (List<Supplier>) repository.findAll();
+        return dao.findAll();
     }
 
     @Override
     public Supplier getSupplierById(String id) {
-        Optional<Supplier> supplier = repository.findById(id);
+        Optional<Supplier> supplier = dao.findById(id);
         if (supplier.isPresent()) {
             return supplier.get();
         }
@@ -52,11 +50,11 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public void deleteSupplier(String id) {
-        Optional<Supplier> supplier = repository.findById(id);
+        Optional<Supplier> supplier = dao.findById(id);
 
         if (supplier.isPresent()) {
             if (validSupplierDeletion()) {
-                repository.deleteById(id);
+                dao.delete(id);
             }
             else {
                 throw new SupplierDeletionException("Unable to delete supplier");
@@ -66,7 +64,7 @@ public class SupplierServiceImpl implements SupplierService {
             throw new SupplierNotFoundException("Supplier not found");
         }
     }
-
+    // TODO: Implement validation
     private boolean validSupplierDeletion() {
         return true;
     }

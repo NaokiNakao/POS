@@ -6,10 +6,16 @@ package com.nakao.pos.util.sql;
  */
 public class SupplierSQL {
 
+    public static final String SELECT_SUPPLIERS = "SELECT * FROM supplier";
+
+    public static final String SELECT_SUPPLIER = "SELECT * FROM supplier WHERE id = :id";
+
     public static final String INSERT_SUPPLIER = "INSERT INTO supplier (id, name, address, contact) VALUES(:id, " +
             ":name, :address, :contact)";
 
     public static final String UPDATE_SUPPLIER = "UPDATE supplier SET name = :name, address = :address, " +
             "contact = :contact WHERE id = :id";
+
+    public static final String DELETE_SUPPLIER = "DELETE FROM supplier WHERE id = :id";
 
 }

@@ -1,7 +1,7 @@
 -------------------- POS Database --------------------
 
-DROP TABLE IF EXISTS cart_item;
-DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS order_item;
+DROP TABLE IF EXISTS store_order;
 DROP TABLE IF EXISTS restock;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
@@ -77,7 +77,7 @@ CREATE TABLE customer (
 
 -- Order table
 
-CREATE TABLE cart (
+CREATE TABLE store_order (
     id             UUID PRIMARY KEY,
     date           DATE,
     net            DECIMAL(10, 2) DEFAULT 0.00,
@@ -95,12 +95,12 @@ CREATE TABLE cart (
 
 -- Item table
 
-CREATE TABLE cart_item (
-    code    UUID PRIMARY KEY,
-    product VARCHAR(9) NOT NULL,
-    cart    UUID NOT NULL,
+CREATE TABLE order_item (
+    code        UUID PRIMARY KEY,
+    product     VARCHAR(9) NOT NULL,
+    store_order UUID NOT NULL,
     FOREIGN KEY (product) REFERENCES product(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (cart) REFERENCES cart(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (store_order) REFERENCES store_order(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

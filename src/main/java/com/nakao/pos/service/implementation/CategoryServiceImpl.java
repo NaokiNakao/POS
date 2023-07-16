@@ -4,7 +4,6 @@ import com.nakao.pos.dao.CategoryDAO;
 import com.nakao.pos.util.exception.CategoryDeletionException;
 import com.nakao.pos.util.exception.CategoryNotFoundException;
 import com.nakao.pos.model.Category;
-import com.nakao.pos.repository.CategoryRepository;
 import com.nakao.pos.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,17 +20,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository repository;
     private final CategoryDAO dao;
 
     @Override
     public List<Category> getCategories() {
-        return (List<Category>) repository.findAll();
+        return dao.findAll();
     }
 
     @Override
     public Category getCategoryById(String id) {
-        Optional<Category> category = repository.findById(id);
+        Optional<Category> category = dao.findById(id);
         if (category.isPresent()) {
             return category.get();
         }
@@ -47,18 +45,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category updateCategory(String id, Category category) {
-        Category updatedCategory = getCategoryById(id);
-        updatedCategory.setName(category.getName());
-        return repository.save(updatedCategory);
+        return dao.update(id, category);
     }
 
     @Override
     public void deleteCategory(String id) {
-        Optional<Category> category = repository.findById(id);
+        Optional<Category> category = dao.findById(id);
 
         if (category.isPresent()) {
             if (validCategoryDeletion(category.get())) {
-                repository.deleteById(id);
+                dao.delete(id);
             }
             else {
                 throw new CategoryDeletionException("Unable to delete category. One or more products are associated with this category.");

@@ -3,6 +3,8 @@ package com.nakao.pos.dao;
 import com.nakao.pos.model.Supplier;
 import com.nakao.pos.util.IdentifierGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -10,8 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-import static com.nakao.pos.util.sql.SupplierSQL.INSERT_SUPPLIER;
-import static com.nakao.pos.util.sql.SupplierSQL.UPDATE_SUPPLIER;
+import static com.nakao.pos.util.sql.SupplierSQL.*;
 
 /**
  * @author Naoki Nakao on 7/14/2023
@@ -26,12 +27,23 @@ public class SupplierDAO implements DAO<Supplier, String> {
 
     @Override
     public List<Supplier> findAll() {
-        return null;
+        return jdbc.query(SELECT_SUPPLIERS, new BeanPropertyRowMapper<>(Supplier.class));
     }
 
     @Override
     public Optional<Supplier> findById(String id) {
-        return Optional.empty();
+        Supplier supplier;
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id", id);
+
+        try {
+            supplier = jdbc.queryForObject(SELECT_SUPPLIER, parameters, new BeanPropertyRowMapper<>(Supplier.class));
+        }
+        catch (EmptyResultDataAccessException e) {
+            supplier = null;
+        }
+
+        return Optional.ofNullable(supplier);
     }
 
     @Override
@@ -56,7 +68,10 @@ public class SupplierDAO implements DAO<Supplier, String> {
 
     @Override
     public Boolean delete(String id) {
-        return null;
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id", id);
+
+        return jdbc.update(DELETE_SUPPLIER, parameters) == 1;
     }
 
     private MapSqlParameterSource getSqlParameterSource(Supplier supplier) {

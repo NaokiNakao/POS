@@ -22,4 +22,6 @@ public class ProductSQL {
 
     public static final String PRODUCT_STOCK = "SELECT stock FROM product WHERE id = :productId";
 
+    public static final String PRODUCT_COUNT_BY_CATEGORY = "SELECT COUNT(*) FROM product WHERE category = :categoryId";
+
 }
