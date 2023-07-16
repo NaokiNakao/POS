@@ -4,7 +4,7 @@ import com.nakao.pos.dao.CartDAO;
 import com.nakao.pos.model.Cart;
 import com.nakao.pos.model.CartItem;
 import com.nakao.pos.service.CartService;
-import com.nakao.pos.util.enumeration.OrderStatus;
+import com.nakao.pos.util.enumeration.CartStatus;
 import com.nakao.pos.util.exception.CartDeletionException;
 import com.nakao.pos.util.exception.CartNotFoundException;
 import com.nakao.pos.util.exception.NotAvailableProductException;
@@ -91,10 +91,15 @@ public class CartServiceImpl implements CartService {
         dao.removeItem(productId, cartId);
     }
 
+    @Override
+    public void cartProcessing(UUID id) {
+        dao.processCart(id);
+    }
+
     private Boolean validCartDeletion(Cart cart) {
         boolean valid = false;
 
-        if (cart.getStatus().equals(OrderStatus.IN_PROGRESS.getStatus())) {
+        if (cart.getStatus().equals(CartStatus.IN_PROGRESS.getStatus())) {
             valid = true;
         }
 

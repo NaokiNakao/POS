@@ -63,7 +63,7 @@ INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, sta
 VALUES ('10000000-0000-0000-0000-000000000003', '2023-07-03', 'PRO000003', 80, 'SUP000003', 'PENDING');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES ('10000000-0000-0000-0000-000000000004', '2023-07-04', 'PRO000004', 60, 'SUP000004', 'CANCELLED');
+VALUES ('10000000-0000-0000-0000-000000000004', '2023-07-04', 'PRO000004', 60, 'SUP000004', 'PROCESSED');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
 VALUES ('10000000-0000-0000-0000-000000000005', '2023-07-05', 'PRO000005', 90, 'SUP000005', 'PENDING');

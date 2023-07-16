@@ -86,4 +86,10 @@ public class CartController {
         return new ResponseEntity<>("Item removed", HttpStatus.NO_CONTENT);
     }
 
+    @PatchMapping("/{id}/process")
+    public ResponseEntity<String> cartProcessing(@PathVariable UUID id) {
+        cartService.cartProcessing(id);
+        return new ResponseEntity<>("Cart processed", HttpStatus.OK);
+    }
+
 }

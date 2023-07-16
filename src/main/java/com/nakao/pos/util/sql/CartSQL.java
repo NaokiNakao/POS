@@ -35,4 +35,6 @@ public class CartSQL {
 
     public static final String UPDATE_TOTAL = "UPDATE cart SET total = (net + tax) WHERE id = :id";
 
+    public static final String PROCESS_CART = "UPDATE cart SET date = CURRENT_DATE, status = 'PROCESSED' WHERE id = :id";
+
 }

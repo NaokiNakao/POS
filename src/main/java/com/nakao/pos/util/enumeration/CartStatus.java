@@ -4,14 +4,14 @@ package com.nakao.pos.util.enumeration;
  * @author Naoki Nakao on 7/15/2023
  * @project POS
  */
-public enum OrderStatus {
+public enum CartStatus {
 
     IN_PROGRESS("IN_PROGRESS"),
-    COMPLETED("COMPLETED");
+    PROCESSED("PROCESSED");
 
     private final String status;
 
-    OrderStatus(String status) {
+    CartStatus(String status) {
         this.status = status;
     }
 

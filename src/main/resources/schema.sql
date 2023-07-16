@@ -47,7 +47,7 @@ CREATE TABLE restock (
     product_quantity INTEGER NOT NULL,
     supplier         VARCHAR(9) NOT NULL,
     status           VARCHAR(15) NOT NULL,
-    CONSTRAINT CK_restock_status CHECK ( status IN ('PENDING', 'PROCESSED', 'CANCELLED') ),
+    CONSTRAINT CK_restock_status CHECK ( status IN ('PENDING', 'PROCESSED') ),
     FOREIGN KEY (product) REFERENCES product(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (supplier) REFERENCES supplier(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
@@ -90,7 +90,7 @@ CREATE TABLE cart (
     FOREIGN KEY (customer) REFERENCES customer(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (employee) REFERENCES employee(id) ON DELETE NO ACTION ON UPDATE CASCADE,
     CONSTRAINT CK_order_payment_method CHECK ( payment_method IN ('CASH', 'DEBT_CARD', 'CREDIT_CARD') ),
-    CONSTRAINT CK_order_status CHECK ( status IN ('IN_PROGRESS', 'COMPLETED') )
+    CONSTRAINT CK_order_status CHECK ( status IN ('IN_PROGRESS', 'PROCESSED') )
 );
 
 -- Item table

@@ -114,6 +114,13 @@ public class CartDAO implements DAO<Cart, UUID> {
         jdbc.update(UPDATE_TOTAL, parameters);
     }
 
+    public void processCart(UUID id) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id", id);
+
+        jdbc.update(PROCESS_CART, parameters);
+    }
+
     private MapSqlParameterSource getSqlParameterSource(Cart cart) {
         return new MapSqlParameterSource()
                 .addValue("id", cart.getId())
