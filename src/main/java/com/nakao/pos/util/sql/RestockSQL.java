@@ -21,6 +21,4 @@ public class RestockSQL {
 
     public static final String UPDATE_STATUS = "UPDATE restock SET status = :status WHERE id = :id";
 
-    public static final String UPDATE_PRODUCT_STOCK = "UPDATE product SET stock = stock + :quantity WHERE id = :productId";
-
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.nakao.pos.util.sql.ProductSQL.UPDATE_PRODUCT_STOCK;
 import static com.nakao.pos.util.sql.RestockSQL.*;
 
 /**
