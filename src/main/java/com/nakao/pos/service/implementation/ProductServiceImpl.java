@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(String id) {
         if (repository.findById(id).isPresent()) {
-            if (validProductDeletion()) {
+            if (validProductDeletion(id)) {
                 repository.delete(id);
             }
             else {
@@ -62,9 +62,9 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException("Product not found");
         }
     }
-    // TODO: Implement validation
-    private boolean validProductDeletion() {
-        return true;
+
+    private Boolean validProductDeletion(String id) {
+        return repository.getProductCountByItemsExistence(id) == 0;
     }
 
 }

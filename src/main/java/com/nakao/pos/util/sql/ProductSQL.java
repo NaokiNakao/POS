@@ -26,4 +26,6 @@ public class ProductSQL {
 
     public static final String PRODUCT_COUNT_BY_CATEGORY = "SELECT COUNT(*) FROM product WHERE category = :categoryId";
 
+    public static final String PRODUCT_COUNT_BY_ITEMS = "SELECT COUNT(*) FROM order_item WHERE product = :product";
+
 }

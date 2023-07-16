@@ -74,6 +74,13 @@ public class ProductRepository implements DAO<Product, String> {
         return jdbc.update(DELETE_PRODUCT, parameters) == 1;
     }
 
+    public Integer getProductCountByItemsExistence(String id) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("product", id);
+
+        return jdbc.queryForObject(PRODUCT_COUNT_BY_ITEMS, parameters, Integer.class);
+    }
+
     private MapSqlParameterSource getSqlParameterSource(Product product) {
         return new MapSqlParameterSource()
                 .addValue("id", product.getId())
