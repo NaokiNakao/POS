@@ -2,6 +2,8 @@ package com.nakao.pos.service;
 
 import com.nakao.pos.model.StoreOrder;
 import com.nakao.pos.model.OrderItem;
+import com.nakao.pos.util.exception.AlreadyProcessedException;
+import com.nakao.pos.util.exception.NotAvailableProductException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +29,31 @@ public interface StoreOrderService {
 
     void deleteOrder(UUID id);
 
+    /**
+     * Adds an order item to the specified order.
+     *
+     * @param productId The ID of the product to add.
+     * @param orderId   The ID of the order to which the item will be added.
+     * @return The added order item.
+     * @throws AlreadyProcessedException    If the order has already been processed and no more items can be added.
+     * @throws NotAvailableProductException If the product is not available.
+     */
     OrderItem addOrderItem(String productId, UUID orderId);
 
+    /**
+     * Removes an order item from the specified order.
+     *
+     * @param productId The ID of the product to remove.
+     * @param orderId   The ID of the order from which the item will be removed.
+     * @throws NotAvailableProductException If the product is not available.
+     */
     void removeOrderItem(String productId, UUID orderId);
 
+    /**
+     * Processes an order with the specified ID.
+     *
+     * @param id The ID of the order to be processed.
+     */
     void orderProcessing(UUID id);
 
 }

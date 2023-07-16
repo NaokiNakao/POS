@@ -70,10 +70,20 @@ public class StoreOrderServiceImpl implements StoreOrderService {
         }
     }
 
+    /**
+     * Adds an order item to the specified order.
+     *
+     * @param productId The ID of the product to add.
+     * @param orderId   The ID of the order to which the item will be added.
+     * @return The added order item.
+     * @throws AlreadyProcessedException    If the order has already been processed and no more items can be added.
+     * @throws NotAvailableProductException If the product is not available.
+     */
     @Override
     public OrderItem addOrderItem(String productId, UUID orderId) {
         if (isProductAvailable(productId)) {
             if (isStoreOrderInProgress(getOrderById(orderId).getStatus())) {
+                // Generate the order item and add it to the repository
                 OrderItem addedOrderItem = repository.addItem(generateOrderItem(productId, orderId));
                 repository.orderPriceUpdateProcedure(orderId);
                 return addedOrderItem;
@@ -87,12 +97,24 @@ public class StoreOrderServiceImpl implements StoreOrderService {
         }
     }
 
+    /**
+     * Removes an order item from the specified order.
+     *
+     * @param productId The ID of the product to remove.
+     * @param orderId   The ID of the order from which the item will be removed.
+     * @throws NotAvailableProductException If the product is not available.
+     */
     @Override
     public void removeOrderItem(String productId, UUID orderId) {
         repository.removeItem(productId, orderId);
         repository.orderPriceUpdateProcedure(orderId);
     }
 
+    /**
+     * Processes an order with the specified ID.
+     *
+     * @param id The ID of the order to be processed.
+     */
     @Override
     public void orderProcessing(UUID id) {
         repository.processOrder(id);
