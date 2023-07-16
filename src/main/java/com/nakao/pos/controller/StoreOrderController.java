@@ -3,6 +3,7 @@ package com.nakao.pos.controller;
 import com.nakao.pos.model.StoreOrder;
 import com.nakao.pos.model.OrderItem;
 import com.nakao.pos.service.StoreOrderService;
+import com.nakao.pos.util.exception.AlreadyProcessedException;
 import com.nakao.pos.util.exception.StoreOrderDeletionException;
 import com.nakao.pos.util.exception.StoreOrderNotFoundException;
 import com.nakao.pos.util.exception.NotAvailableProductException;
@@ -77,6 +78,9 @@ public class StoreOrderController {
         }
         catch (NotAvailableProductException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+        catch (AlreadyProcessedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
