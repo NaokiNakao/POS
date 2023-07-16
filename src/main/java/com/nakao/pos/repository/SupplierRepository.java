@@ -74,6 +74,13 @@ public class SupplierRepository implements DAO<Supplier, String> {
         return jdbc.update(DELETE_SUPPLIER, parameters) == 1;
     }
 
+    public Integer getSupplierCountByRestock(String id) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("supplier", id);
+
+        return jdbc.queryForObject(SUPPLIER_COUNT_BY_RESTOCK, parameters, Integer.class);
+    }
+
     private MapSqlParameterSource getSqlParameterSource(Supplier supplier) {
         return new MapSqlParameterSource()
                 .addValue("id", supplier.getId())

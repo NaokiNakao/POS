@@ -18,4 +18,6 @@ public class SupplierSQL {
 
     public static final String DELETE_SUPPLIER = "DELETE FROM supplier WHERE id = :id";
 
+    public static final String SUPPLIER_COUNT_BY_RESTOCK = "SELECT COUNT (*) FROM restock WHERE supplier = :supplier";
+
 }

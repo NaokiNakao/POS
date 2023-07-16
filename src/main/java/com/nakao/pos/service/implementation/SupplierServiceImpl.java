@@ -53,7 +53,7 @@ public class SupplierServiceImpl implements SupplierService {
         Optional<Supplier> supplier = repository.findById(id);
 
         if (supplier.isPresent()) {
-            if (validSupplierDeletion()) {
+            if (validSupplierDeletion(id)) {
                 repository.delete(id);
             }
             else {
@@ -65,8 +65,8 @@ public class SupplierServiceImpl implements SupplierService {
         }
     }
     // TODO: Implement validation
-    private boolean validSupplierDeletion() {
-        return true;
+    private boolean validSupplierDeletion(String id) {
+        return repository.getSupplierCountByRestock(id) == 0;
     }
 
 }
