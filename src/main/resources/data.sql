@@ -54,19 +54,19 @@ VALUES ('SUP000005', 'Supplier 5', 'Address 5', 'Contact 5');
 
 -- Restock insertions
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-01', 'PRO000001', 100, 'SUP000001', 'PENDING');
+VALUES ('10000000-0000-0000-0000-000000000001', '2023-07-01', 'PRO000001', 100, 'SUP000001', 'PENDING');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-02', 'PRO000002', 50, 'SUP000002', 'PROCESSED');
+VALUES ('10000000-0000-0000-0000-000000000002', '2023-07-02', 'PRO000002', 50, 'SUP000002', 'PROCESSED');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-03', 'PRO000003', 80, 'SUP000003', 'PENDING');
+VALUES ('10000000-0000-0000-0000-000000000003', '2023-07-03', 'PRO000003', 80, 'SUP000003', 'PENDING');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-04', 'PRO000004', 60, 'SUP000004', 'CANCELLED');
+VALUES ('10000000-0000-0000-0000-000000000004', '2023-07-04', 'PRO000004', 60, 'SUP000004', 'CANCELLED');
 
 INSERT INTO restock (id, delivery_date, product, product_quantity, supplier, status)
-VALUES (gen_random_uuid(), '2023-07-05', 'PRO000005', 90, 'SUP000005', 'PENDING');
+VALUES ('10000000-0000-0000-0000-000000000005', '2023-07-05', 'PRO000005', 90, 'SUP000005', 'PENDING');
 
 -- Employee insertions
 INSERT INTO employee (id, first_name, last_name, email, password, phone)
@@ -102,19 +102,19 @@ VALUES ('CUS000005', 'Aiden', 'Davis', '2345678901', '901 Maple Ave', '1998-12-0
 
 -- Order insertions
 INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
-VALUES (gen_random_uuid(), '2023-01-15', 100.00, 10.00, 110.00, 'CASH', 'IN_PROGRESS', 'CUS000001', 'EMP000001');
+VALUES ('10000000-0000-0000-0000-000000000001', '2023-01-15', 100.00, 10.00, 110.00, 'CASH', 'IN_PROGRESS', 'CUS000001', 'EMP000001');
 
 INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
-VALUES (gen_random_uuid(), '2023-02-20', 50.00, 5.00, 55.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000002', 'EMP000002');
+VALUES ('10000000-0000-0000-0000-000000000002', '2023-02-20', 50.00, 5.00, 55.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000002', 'EMP000002');
 
 INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
-VALUES (gen_random_uuid(), '2023-03-10', 80.00, 8.00, 88.00, 'DEBT_CARD', 'IN_PROGRESS', 'CUS000003', 'EMP000003');
+VALUES ('10000000-0000-0000-0000-000000000003', '2023-03-10', 80.00, 8.00, 88.00, 'DEBT_CARD', 'IN_PROGRESS', 'CUS000003', 'EMP000003');
 
 INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
-VALUES (gen_random_uuid(), '2023-04-05', 120.00, 12.00, 132.00, 'CASH', 'IN_PROGRESS', 'CUS000004', 'EMP000004');
+VALUES ('10000000-0000-0000-0000-000000000004', '2023-04-05', 120.00, 12.00, 132.00, 'CASH', 'IN_PROGRESS', 'CUS000004', 'EMP000004');
 
 INSERT INTO cart (id, date, net, tax, total, payment_method, status, customer, employee)
-VALUES (gen_random_uuid(), '2023-05-12', 70.00, 7.00, 77.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000005', 'EMP000005');
+VALUES ('10000000-0000-0000-0000-000000000005', '2023-05-12', 70.00, 7.00, 77.00, 'CREDIT_CARD', 'IN_PROGRESS', 'CUS000005', 'EMP000005');
 
 
 
