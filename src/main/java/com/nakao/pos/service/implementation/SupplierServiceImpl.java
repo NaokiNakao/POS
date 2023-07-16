@@ -64,7 +64,7 @@ public class SupplierServiceImpl implements SupplierService {
             throw new SupplierNotFoundException("Supplier not found");
         }
     }
-    // TODO: Implement validation
+
     private boolean validSupplierDeletion(String id) {
         return repository.getSupplierCountByRestock(id) == 0;
     }
