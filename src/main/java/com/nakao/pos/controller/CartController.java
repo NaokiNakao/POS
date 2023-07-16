@@ -5,6 +5,7 @@ import com.nakao.pos.model.CartItem;
 import com.nakao.pos.service.CartService;
 import com.nakao.pos.util.exception.CartDeletionException;
 import com.nakao.pos.util.exception.CartNotFoundException;
+import com.nakao.pos.util.exception.NotAvailableProductException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -69,9 +70,14 @@ public class CartController {
     }
 
     @PostMapping("/{id}/add_item")
-    public ResponseEntity<CartItem> addCartItem(@PathVariable UUID id, @RequestParam String product) {
-        CartItem cartItem = cartService.addToCart(product, id);
-        return new ResponseEntity<>(cartItem, HttpStatus.CREATED);
+    public ResponseEntity<?> addCartItem(@PathVariable UUID id, @RequestParam String product) {
+        try {
+            CartItem cartItem = cartService.addToCart(product, id);
+            return new ResponseEntity<>(cartItem, HttpStatus.CREATED);
+        }
+        catch (NotAvailableProductException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     @DeleteMapping("/{id}/remove_item")

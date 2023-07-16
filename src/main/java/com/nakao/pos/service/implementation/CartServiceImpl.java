@@ -7,6 +7,7 @@ import com.nakao.pos.service.CartService;
 import com.nakao.pos.util.enumeration.OrderStatus;
 import com.nakao.pos.util.exception.CartDeletionException;
 import com.nakao.pos.util.exception.CartNotFoundException;
+import com.nakao.pos.util.exception.NotAvailableProductException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -70,14 +71,17 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartItem addToCart(String productId, UUID cartId) {
-        // TODO: Verify product existence, throw exception if not found
+        if (isProductAvailable(productId)) {
+            CartItem cartItem = CartItem.builder()
+                    .product(productId)
+                    .cart(cartId)
+                    .build();
 
-        CartItem cartItem = CartItem.builder()
-                .product(productId)
-                .cart(cartId)
-                .build();
-
-        return dao.addItem(cartItem);
+            return dao.addItem(cartItem);
+        }
+        else {
+            throw new NotAvailableProductException("Product not available");
+        }
     }
 
     @Override
@@ -93,6 +97,16 @@ public class CartServiceImpl implements CartService {
         }
 
         return valid;
+    }
+
+    private Boolean isProductAvailable(String productId) {
+        boolean available = false;
+
+        if (dao.getProductStock(productId) > 0) {
+            available = true;
+        }
+
+        return available;
     }
 
     // TODO: Create logic to calculate Cart total

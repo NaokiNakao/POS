@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.nakao.pos.util.sql.CartSQL.*;
+import static com.nakao.pos.util.sql.ProductSQL.PRODUCT_STOCK;
 
 /**
  * @author Naoki Nakao on 7/15/2023
@@ -95,6 +96,13 @@ public class CartDAO implements DAO<Cart, UUID> {
                 .addValue("cart", cart);
 
         return jdbc.update(REMOVE_ITEM, parameters) == 1;
+    }
+
+    public Integer getProductStock(String product) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("productId", product);
+
+        return jdbc.queryForObject(PRODUCT_STOCK, parameters, Integer.class);
     }
 
     private MapSqlParameterSource getSqlParameterSource(Cart cart) {
