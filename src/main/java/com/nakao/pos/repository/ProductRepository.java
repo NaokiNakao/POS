@@ -1,4 +1,4 @@
-package com.nakao.pos.dao;
+package com.nakao.pos.repository;
 
 import com.nakao.pos.model.Product;
 import com.nakao.pos.util.IdentifierGenerator;
@@ -21,7 +21,7 @@ import static com.nakao.pos.util.sql.ProductSQL.*;
 
 @Component
 @RequiredArgsConstructor
-public class ProductDAO implements DAO<Product, String> {
+public class ProductRepository implements DAO<Product, String> {
 
     private final NamedParameterJdbcTemplate jdbc;
 

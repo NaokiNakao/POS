@@ -1,6 +1,6 @@
 package com.nakao.pos.service.implementation;
 
-import com.nakao.pos.dao.RestockDAO;
+import com.nakao.pos.repository.RestockRepository;
 import com.nakao.pos.model.Restock;
 import com.nakao.pos.service.RestockService;
 import com.nakao.pos.util.enumeration.RestockStatus;
@@ -22,16 +22,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RestockServiceImpl implements RestockService {
 
-    private final RestockDAO dao;
+    private final RestockRepository repository;
 
     @Override
     public List<Restock> getRestocks() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Restock getRestockById(UUID id) {
-        Optional<Restock> restock = dao.findById(id);
+        Optional<Restock> restock = repository.findById(id);
         if (restock.isPresent()) {
             return restock.get();
         }
@@ -42,19 +42,19 @@ public class RestockServiceImpl implements RestockService {
 
     @Override
     public Restock createRestock(Restock restock) {
-        return dao.insert(restock);
+        return repository.insert(restock);
     }
 
     @Override
     public Restock updateRestock(UUID id, Restock restock) {
-        return dao.update(id, restock);
+        return repository.update(id, restock);
     }
 
     @Override
     public void deleteRestock(UUID id) {
-        if (dao.findById(id).isPresent()) {
+        if (repository.findById(id).isPresent()) {
             // TODO: Implement validation
-            dao.delete(id);
+            repository.delete(id);
         }
         else {
             throw new RestockNotFoundException("Restock not found");
@@ -73,8 +73,8 @@ public class RestockServiceImpl implements RestockService {
         Restock restock = getRestockById(id);
 
         if (restock.getStatus().equals(RestockStatus.PENDING.getStatus())) {
-            dao.updateStatus(restock.getId(), RestockStatus.PROCESSED);
-            dao.updateProductStock(restock.getProduct(), restock.getProductQuantity());
+            repository.updateStatus(restock.getId(), RestockStatus.PROCESSED);
+            repository.updateProductStock(restock.getProduct(), restock.getProductQuantity());
         }
         else {
             throw new RestockProcessingException("Unable to process restock");

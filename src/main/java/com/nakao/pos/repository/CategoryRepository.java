@@ -1,4 +1,4 @@
-package com.nakao.pos.dao;
+package com.nakao.pos.repository;
 
 import com.nakao.pos.model.Category;
 import com.nakao.pos.util.IdentifierGenerator;
@@ -22,7 +22,7 @@ import static com.nakao.pos.util.sql.ProductSQL.PRODUCT_COUNT_BY_CATEGORY;
 
 @Component
 @RequiredArgsConstructor
-public class CategoryDAO implements DAO<Category, String> {
+public class CategoryRepository implements DAO<Category, String> {
 
     private final NamedParameterJdbcTemplate jdbc;
 

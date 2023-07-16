@@ -1,6 +1,6 @@
 package com.nakao.pos.service.implementation;
 
-import com.nakao.pos.dao.ProductDAO;
+import com.nakao.pos.repository.ProductRepository;
 import com.nakao.pos.model.Product;
 import com.nakao.pos.service.ProductService;
 import com.nakao.pos.util.exception.ProductDeletionException;
@@ -20,16 +20,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductDAO dao;
+    private final ProductRepository repository;
 
     @Override
     public List<Product> getProducts() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Product getProductById(String id) {
-        Optional<Product> product = dao.findById(id);
+        Optional<Product> product = repository.findById(id);
         if (product.isPresent()) {
             return product.get();
         }
@@ -40,19 +40,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        return dao.insert(product);
+        return repository.insert(product);
     }
 
     @Override
     public Product updateProduct(String id, Product product) {
-        return dao.update(id, product);
+        return repository.update(id, product);
     }
 
     @Override
     public void deleteProduct(String id) {
-        if (dao.findById(id).isPresent()) {
+        if (repository.findById(id).isPresent()) {
             if (validProductDeletion()) {
-                dao.delete(id);
+                repository.delete(id);
             }
             else {
                 throw new ProductDeletionException("Unable to delete product");

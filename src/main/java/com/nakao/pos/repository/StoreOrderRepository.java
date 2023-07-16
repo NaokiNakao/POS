@@ -1,4 +1,4 @@
-package com.nakao.pos.dao;
+package com.nakao.pos.repository;
 
 import com.nakao.pos.model.StoreOrder;
 import com.nakao.pos.model.OrderItem;
@@ -23,7 +23,7 @@ import static com.nakao.pos.util.sql.ProductSQL.PRODUCT_STOCK;
 
 @Component
 @RequiredArgsConstructor
-public class StoreOrderDAO implements DAO<StoreOrder, UUID> {
+public class StoreOrderRepository implements DAO<StoreOrder, UUID> {
 
     private final NamedParameterJdbcTemplate jdbc;
 

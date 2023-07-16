@@ -1,6 +1,6 @@
 package com.nakao.pos.service.implementation;
 
-import com.nakao.pos.dao.StoreOrderDAO;
+import com.nakao.pos.repository.StoreOrderRepository;
 import com.nakao.pos.model.StoreOrder;
 import com.nakao.pos.model.OrderItem;
 import com.nakao.pos.service.StoreOrderService;
@@ -25,16 +25,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StoreOrderServiceImpl implements StoreOrderService {
 
-    private final StoreOrderDAO dao;
+    private final StoreOrderRepository repository;
 
     @Override
     public List<StoreOrder> getOrders() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
     @Override
     public StoreOrder getOrderById(UUID id) {
-        Optional<StoreOrder> order = dao.findById(id);
+        Optional<StoreOrder> order = repository.findById(id);
         if (order.isPresent()) {
             return order.get();
         }
@@ -45,21 +45,21 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 
     @Override
     public StoreOrder createOrder(StoreOrder storeOrder) {
-        return dao.insert(storeOrder);
+        return repository.insert(storeOrder);
     }
 
     @Override
     public StoreOrder updateOrder(UUID id, StoreOrder storeOrder) {
-        return dao.update(id, storeOrder);
+        return repository.update(id, storeOrder);
     }
 
     @Override
     public void deleteOrder(UUID id) {
-        Optional<StoreOrder> order = dao.findById(id);
+        Optional<StoreOrder> order = repository.findById(id);
 
         if (order.isPresent()) {
             if (isStoreOrderInProgress(order.get().getStatus())) {
-                dao.delete(id);
+                repository.delete(id);
             }
             else {
                 throw new StoreOrderDeletionException("Unable to delete store order");
@@ -74,8 +74,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
     public OrderItem addOrderItem(String productId, UUID orderId) {
         if (isProductAvailable(productId)) {
             if (isStoreOrderInProgress(getOrderById(orderId).getStatus())) {
-                OrderItem addedOrderItem = dao.addItem(generateOrderItem(productId, orderId));
-                dao.orderPriceUpdateProcedure(orderId);
+                OrderItem addedOrderItem = repository.addItem(generateOrderItem(productId, orderId));
+                repository.orderPriceUpdateProcedure(orderId);
                 return addedOrderItem;
             }
             else {
@@ -89,13 +89,13 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 
     @Override
     public void removeOrderItem(String productId, UUID orderId) {
-        dao.removeItem(productId, orderId);
-        dao.orderPriceUpdateProcedure(orderId);
+        repository.removeItem(productId, orderId);
+        repository.orderPriceUpdateProcedure(orderId);
     }
 
     @Override
     public void orderProcessing(UUID id) {
-        dao.processOrder(id);
+        repository.processOrder(id);
     }
 
     private Boolean isStoreOrderInProgress(String storeOrderStatus) {
@@ -111,7 +111,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
     private Boolean isProductAvailable(String productId) {
         boolean available = false;
 
-        if (dao.getProductStock(productId) > 0) {
+        if (repository.getProductStock(productId) > 0) {
             available = true;
         }
 

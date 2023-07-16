@@ -1,4 +1,4 @@
-package com.nakao.pos.dao;
+package com.nakao.pos.repository;
 
 import java.util.List;
 import java.util.Optional;

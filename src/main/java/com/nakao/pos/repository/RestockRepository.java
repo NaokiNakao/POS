@@ -1,4 +1,4 @@
-package com.nakao.pos.dao;
+package com.nakao.pos.repository;
 
 import com.nakao.pos.model.Restock;
 import com.nakao.pos.util.enumeration.RestockStatus;
@@ -22,7 +22,7 @@ import static com.nakao.pos.util.sql.RestockSQL.*;
 
 @Component
 @RequiredArgsConstructor
-public class RestockDAO implements DAO<Restock, UUID> {
+public class RestockRepository implements DAO<Restock, UUID> {
 
     private final NamedParameterJdbcTemplate jdbc;
 

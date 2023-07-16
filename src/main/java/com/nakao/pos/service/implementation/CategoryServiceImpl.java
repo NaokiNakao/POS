@@ -1,6 +1,6 @@
 package com.nakao.pos.service.implementation;
 
-import com.nakao.pos.dao.CategoryDAO;
+import com.nakao.pos.repository.CategoryRepository;
 import com.nakao.pos.util.exception.CategoryDeletionException;
 import com.nakao.pos.util.exception.CategoryNotFoundException;
 import com.nakao.pos.model.Category;
@@ -20,16 +20,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryDAO dao;
+    private final CategoryRepository repository;
 
     @Override
     public List<Category> getCategories() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Category getCategoryById(String id) {
-        Optional<Category> category = dao.findById(id);
+        Optional<Category> category = repository.findById(id);
         if (category.isPresent()) {
             return category.get();
         }
@@ -40,21 +40,21 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(Category category) {
-        return dao.insert(category);
+        return repository.insert(category);
     }
 
     @Override
     public Category updateCategory(String id, Category category) {
-        return dao.update(id, category);
+        return repository.update(id, category);
     }
 
     @Override
     public void deleteCategory(String id) {
-        Optional<Category> category = dao.findById(id);
+        Optional<Category> category = repository.findById(id);
 
         if (category.isPresent()) {
             if (validCategoryDeletion(category.get())) {
-                dao.delete(id);
+                repository.delete(id);
             }
             else {
                 throw new CategoryDeletionException("Unable to delete category. One or more products are associated with this category.");
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
     private Boolean validCategoryDeletion(Category category) {
         boolean valid = false;
 
-        if (dao.getProductCountByCategoryId(category.getId()) == 0) {
+        if (repository.getProductCountByCategoryId(category.getId()) == 0) {
             valid = true;
         }
 
