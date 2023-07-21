@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.UUID;
-
 /**
  * @author Naoki Nakao on 7/15/2023
  * @project POS
@@ -24,8 +22,8 @@ import java.util.UUID;
 public class OrderItem {
 
     @Id
-    private UUID code;
-    private String product;
-    private UUID storeOrder;
+    private String id;
+    private String productSku;
+    private String orderId;
 
 }

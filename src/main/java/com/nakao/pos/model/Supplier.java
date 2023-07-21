@@ -1,6 +1,8 @@
 package com.nakao.pos.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +24,18 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Supplier {
 
     @Id
-    private String id;
-    private String name;
-    private String address;
-    private String contact;
+    private Long id;
 
-    public static final String ID_PATTERN = "SUP######";
+    @NotBlank(message = "Name cannot be empty")
+    @Size(max = 50, message = "The name is too long")
+    private String name;
+
+    @NotBlank(message = "Address name cannot be empty")
+    @Size(max = 50, message = "The address is too long")
+    private String address;
+
+    @NotBlank(message = "Contact name cannot be empty")
+    @Size(max = 50, message = "The contact is too long")
+    private String contact;
 
 }
