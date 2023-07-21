@@ -2,8 +2,6 @@ package com.nakao.pos.controller;
 
 import com.nakao.pos.model.Category;
 import com.nakao.pos.service.CategoryService;
-import com.nakao.pos.util.exception.CategoryDeletionException;
-import com.nakao.pos.util.exception.CategoryNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,58 +11,46 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author Naoki Nakao on 7/13/2023
+ * @author Naoki Nakao on 7/18/2023
  * @project POS
  */
 
 @RestController
-@RequestMapping(path = "/api/categories")
+@RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> getCategories() {
-        List<Category> categories = categoryService.getCategories();
-        return ResponseEntity.ok(categories);
+    public ResponseEntity<List<Category>> getAll(@RequestParam(defaultValue = "0") Integer page,
+                                                 @RequestParam(defaultValue = "10") Integer size) {
+        List<Category> categories = categoryService.getCategories(page, size);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategory(@PathVariable String id) {
-        try {
-            Category category = categoryService.getCategoryById(id);
-            return new ResponseEntity<>(category, HttpStatus.OK);
-        }
-        catch (CategoryNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Category> getById(@PathVariable String id) {
+        Category category = categoryService.getCategoryById(id);
+        return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
+    public ResponseEntity<Category> create(@RequestBody @Valid Category category) {
         Category createdCategory = categoryService.createCategory(category);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updatedCategory(@PathVariable String id, @Valid @RequestBody Category category) {
+    public ResponseEntity<Category> update(@PathVariable String id, @RequestBody @Valid Category category) {
         Category updatedCategory = categoryService.updateCategory(id, category);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable String id) {
-        try {
-            categoryService.deleteCategory(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        catch (CategoryNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-        catch (CategoryDeletionException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        categoryService.deleteCategory(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

@@ -1,6 +1,9 @@
 package com.nakao.pos.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nakao.pos.validation.ForeignKeyValidation;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,14 +27,21 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-    private String id;
+    private String sku;
+
+    @NotBlank(message = "Name cannot be empty")
+    @Size(max = 50, message = "The name is too long")
     private String name;
-    private String category;
+
+    @NotBlank(message = "Category is needed")
+    @ForeignKeyValidation(tableName = "category", message = "Non existing Category")
+    private String categoryId;
+
     private Integer stock;
     private Integer minStock;
     private BigDecimal acquisitionCost;
     private BigDecimal sellingPrice;
 
-    public static final String ID_PATTERN = "PRO######";
+    public static final String SKU_PATTERN = "PROD-####-***";
 
 }

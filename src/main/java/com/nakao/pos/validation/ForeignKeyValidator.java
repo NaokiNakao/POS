@@ -29,7 +29,7 @@ public class ForeignKeyValidator implements ConstraintValidator<ForeignKeyValida
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (value == null) {
-            return false;
+            return true;
         }
 
         String query = "SELECT COUNT(*) FROM " + tableName + " WHERE " + fieldName + " = ?";
