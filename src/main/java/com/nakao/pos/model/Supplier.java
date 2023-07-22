@@ -1,7 +1,9 @@
 package com.nakao.pos.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +37,8 @@ public class Supplier {
     private String address;
 
     @NotBlank(message = "Contact name cannot be empty")
-    @Size(max = 50, message = "The contact is too long")
+    @Size(max = 255, message = "The contact is too long")
+    @Email(message = "Not valid contact")
     private String contact;
 
 }

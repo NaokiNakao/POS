@@ -29,4 +29,9 @@ public interface OrderRepository extends CrudRepository<Order, String>,
             "LIMIT 1")
     String getFirstOrderItemIdWithProductSku(String orderId, String productSku);
 
+    @Query("SELECT COUNT(o.id) " +
+            "FROM Orders o " +
+            "WHERE o.customer_id = :customerId")
+    Integer countByCustomerId(String customerId);
+
 }

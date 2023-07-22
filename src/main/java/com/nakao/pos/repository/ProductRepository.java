@@ -19,12 +19,12 @@ public interface ProductRepository extends CrudRepository<Product, String>,
     @Query("SELECT COUNT(p.sku) " +
             "FROM Product p " +
             "WHERE p.category_id = :categoryId")
-    Integer countProductByCategoryId(String categoryId);
+    Integer countByCategoryId(String categoryId);
 
     @Modifying
     @Query("UPDATE Product p " +
             "SET stock = stock + :quantity " +
             "WHERE p.sku = :sku")
-    void updateProductStock(String sku, Integer quantity);
+    void updateStock(String sku, Integer quantity);
 
 }

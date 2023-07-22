@@ -1,7 +1,7 @@
 package com.nakao.pos.service;
 
 import com.nakao.pos.dao.OrderDAO;
-import com.nakao.pos.enumeration.OrderStatus;
+import com.nakao.pos.util.enumeration.OrderStatus;
 import com.nakao.pos.exception.*;
 import com.nakao.pos.model.Order;
 import com.nakao.pos.model.OrderItem;

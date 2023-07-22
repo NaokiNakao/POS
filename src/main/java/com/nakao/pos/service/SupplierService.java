@@ -51,16 +51,11 @@ public class SupplierService {
     }
 
     public void deleteSupplier(Long id) {
-        if (supplierRepository.existsById(id)) {
-            if (isValidSupplierDeletion(id)) {
-                supplierRepository.deleteById(id);
-            }
-            else {
-                throw new SupplierDeletionException("Unable to delete Supplier with ID: " + id);
-            }
+        if (isValidSupplierDeletion(getSupplierById(id).getId())) {
+            supplierRepository.deleteById(id);
         }
         else {
-            throw new SupplierNotFoundException("Supplier not found with ID: " + id);
+            throw new SupplierDeletionException("Unable to delete Supplier with ID: " + id);
         }
     }
 

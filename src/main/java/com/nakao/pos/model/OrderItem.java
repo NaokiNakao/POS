@@ -1,6 +1,8 @@
 package com.nakao.pos.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nakao.pos.util.validation.ForeignKeyValidation;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,13 @@ public class OrderItem {
 
     @Id
     private String id;
+
+    @NotBlank(message = "Product is needed")
+    @ForeignKeyValidation(tableName = "product", fieldName = "sku", message = "Non existing product")
     private String productSku;
+
+    @NotBlank(message = "Order is needed")
+    @ForeignKeyValidation(tableName = "employee", message = "Non existing order")
     private String orderId;
 
 }

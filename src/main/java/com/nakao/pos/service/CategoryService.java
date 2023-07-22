@@ -63,20 +63,16 @@ public class CategoryService {
     }
 
     public void deleteCategory(String id) {
-        if (categoryRepository.existsById(id)) {
-            if (isValidCategoryDeletion(id)) {
-                categoryRepository.deleteById(id);
-            } else {
-                throw new CategoryDeletionException("Unable to delete Category with ID: " + id);
-            }
+        if (isValidCategoryDeletion(getCategoryById(id).getId())) {
+            categoryRepository.deleteById(id);
         }
         else {
-            throw new CategoryNotFoundException("Category not found with ID: " + id);
+            throw new CategoryDeletionException("Unable to delete Category with ID: " + id);
         }
     }
 
     private Boolean isValidCategoryDeletion(String id) {
-        return productRepository.countProductByCategoryId(id) == 0;
+        return productRepository.countByCategoryId(id) == 0;
     }
 
 }

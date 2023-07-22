@@ -32,7 +32,7 @@ CREATE TABLE supplier (
     id      BIGINT AUTO_INCREMENT PRIMARY KEY,
     name    VARCHAR(50) NOT NULL,
     address VARCHAR(50) NOT NULL,
-    contact VARCHAR(20) NOT NULL
+    contact VARCHAR(255) NOT NULL
 );
 
 -- Restock table
@@ -58,6 +58,7 @@ CREATE TABLE employee (
     email      VARCHAR(255) NOT NULL,
     password   VARCHAR(255) NOT NULL,
     phone      VARCHAR(20),
+    role       VARCHAR(20),
     CONSTRAINT UQ_employee_email UNIQUE (email)
 );
 
@@ -68,7 +69,7 @@ CREATE TABLE customer (
     first_name VARCHAR (50) NOT NULL,
     last_name  VARCHAR(50) NOT NULL,
     phone      VARCHAR(20),
-    address    VARCHAR(50),
+    address    VARCHAR(100),
     birthday   DATE
 );
 

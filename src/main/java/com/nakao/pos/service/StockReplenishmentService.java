@@ -1,7 +1,7 @@
 package com.nakao.pos.service;
 
 import com.nakao.pos.dao.StockReplenishmentDAO;
-import com.nakao.pos.enumeration.StockReplenishmentStatus;
+import com.nakao.pos.util.enumeration.StockReplenishmentStatus;
 import com.nakao.pos.exception.StockReplenishmentDeletionException;
 import com.nakao.pos.exception.StockReplenishmentNotFoundException;
 import com.nakao.pos.exception.StockReplenishmentProcessingException;
@@ -58,9 +58,7 @@ public class StockReplenishmentService {
     }
 
     public void deleteStockReplenishment(String id) {
-        StockReplenishment stockReplenishment = getStockReplenishmentById(id);
-
-        if (stockReplenishment.getStatus().equals(StockReplenishmentStatus.PENDING.getValue())) {
+        if (validateStockReplenishmentStatus(getStockReplenishmentById(id))) {
             stockReplenishmentRepository.deleteById(id);
         }
         else {
@@ -71,8 +69,8 @@ public class StockReplenishmentService {
     public void replenishmentProcessing(String id) {
         StockReplenishment stockReplenishment = getStockReplenishmentById(id);
 
-        if (stockReplenishment.getStatus().equals(StockReplenishmentStatus.PENDING.getValue())) {
-            productRepository.updateProductStock(stockReplenishment.getProductSku(),
+        if (validateStockReplenishmentStatus(stockReplenishment)) {
+            productRepository.updateStock(stockReplenishment.getProductSku(),
                     stockReplenishment.getProductQuantity());
             stockReplenishmentRepository.updateStockReplenishmentStatus(stockReplenishment.getId(),
                     StockReplenishmentStatus.DELIVERED.getValue());
@@ -80,6 +78,10 @@ public class StockReplenishmentService {
         else {
             throw new StockReplenishmentProcessingException("Unable to process Stock Replenishment");
         }
+    }
+
+    private Boolean validateStockReplenishmentStatus(StockReplenishment stockReplenishment) {
+        return stockReplenishment.getStatus().equals(StockReplenishmentStatus.PENDING.getValue());
     }
 
 }

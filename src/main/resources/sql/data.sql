@@ -52,11 +52,11 @@ INSERT INTO product (sku, name, category_id, stock, min_stock, acquisition_cost,
 VALUES ('SKU00000015', 'Garden Hose', 'CAT000004', 120, 25, 12.00, 25.00);
 
 -- Supplier insertions
-INSERT INTO supplier (name, address, contact) VALUES ('Supplier A', '123 Main Street', '123-456-7890');
-INSERT INTO supplier (name, address, contact) VALUES ('Supplier B', '456 Park Avenue', '987-654-3210');
-INSERT INTO supplier (name, address, contact) VALUES ('Supplier C', '789 Elm Road', '555-555-5555');
-INSERT INTO supplier (name, address, contact) VALUES ('Supplier D', '101 Oak Avenue', '111-222-3333');
-INSERT INTO supplier (name, address, contact) VALUES ('Supplier E', '222 Maple Lane', '444-444-4444');
+INSERT INTO supplier (name, address, contact) VALUES ('Supplier A', '123 Main Street', 'supplierA@example.com');
+INSERT INTO supplier (name, address, contact) VALUES ('Supplier B', '456 Park Avenue', 'supplierB@example.com');
+INSERT INTO supplier (name, address, contact) VALUES ('Supplier C', '789 Elm Road', 'supplierC@example.com');
+INSERT INTO supplier (name, address, contact) VALUES ('Supplier D', '101 Oak Avenue', 'supplierD@example.com');
+INSERT INTO supplier (name, address, contact) VALUES ('Supplier E', '222 Maple Lane', 'supplierE@example.com');
 
 -- Stock Replenishment insertions
 INSERT INTO stock_replenishment (id, delivery_date, product_sku, product_quantity, supplier_id, status)

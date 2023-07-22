@@ -63,16 +63,11 @@ public class ProductService {
     }
 
     public void deleteProduct(String sku) {
-        if (productRepository.existsById(sku)) {
-            if (isValidProductDeletion(sku)) {
-                productRepository.deleteById(sku);
-            }
-            else {
-                throw new ProductDeletionException("Unable to delete Product with SKU: " + sku);
-            }
+        if (isValidProductDeletion(getProductBySku(sku).getSku())) {
+            productRepository.deleteById(sku);
         }
         else {
-            throw new ProductNotFoundException("Product not found with SKU: " + sku);
+            throw new ProductDeletionException("Unable to delete Product with SKU: " + sku);
         }
     }
 

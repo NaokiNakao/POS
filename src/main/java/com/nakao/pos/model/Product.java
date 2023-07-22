@@ -1,7 +1,7 @@
 package com.nakao.pos.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nakao.pos.validation.ForeignKeyValidation;
+import com.nakao.pos.util.validation.ForeignKeyValidation;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
