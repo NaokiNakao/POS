@@ -28,7 +28,7 @@ public class Customer extends Person {
 
     private LocalDate birthday;
 
-    public static final String ID_PATTERN = "CUS######";
+    public static final String ID_PATTERN = "CUST-####-***";
 
     @Builder
     public Customer(String firstName, String lastName, String phone, String id, String address, LocalDate birthday) {

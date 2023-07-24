@@ -23,38 +23,39 @@ public class StockReplenishmentController {
     private final StockReplenishmentService stockReplenishmentService;
 
     @GetMapping
-    public ResponseEntity<List<StockReplenishment>> getAll(@RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<List<StockReplenishment>> getStockReplenishments(@RequestParam(defaultValue = "0") Integer page,
                                                            @RequestParam(defaultValue = "10") Integer size) {
         List<StockReplenishment> stockReplenishments = stockReplenishmentService.getStockReplenishments(page, size);
         return new ResponseEntity<>(stockReplenishments, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StockReplenishment> getById(@PathVariable String id) {
+    public ResponseEntity<StockReplenishment> getStockReplenishmentById(@PathVariable String id) {
         StockReplenishment stockReplenishment = stockReplenishmentService.getStockReplenishmentById(id);
         return new ResponseEntity<>(stockReplenishment, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<StockReplenishment> create(@RequestBody @Valid StockReplenishment stockReplenishment) {
-        StockReplenishment createdStockReplenishment = stockReplenishmentService.createStockReplenishment(stockReplenishment);
-        return new ResponseEntity<>(createdStockReplenishment, HttpStatus.CREATED);
+    public ResponseEntity<String > createStockReplenishment(@RequestBody @Valid StockReplenishment stockReplenishment) {
+        stockReplenishmentService.createStockReplenishment(stockReplenishment);
+        return new ResponseEntity<>("Stock Replenishment created", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StockReplenishment> update(@PathVariable String id, @RequestBody @Valid StockReplenishment stockReplenishment) {
-        StockReplenishment updatedStockReplenishment = stockReplenishmentService.updateStockReplenishment(id, stockReplenishment);
-        return new ResponseEntity<>(updatedStockReplenishment, HttpStatus.OK);
+    public ResponseEntity<String> updateStockReplenishment(@PathVariable String id,
+                                                           @RequestBody @Valid StockReplenishment stockReplenishment) {
+        stockReplenishmentService.updateStockReplenishment(id, stockReplenishment);
+        return new ResponseEntity<>("Stock Replenishment updated", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable String id) {
+    public ResponseEntity<Void> deleteStockReplenishment(@PathVariable String id) {
         stockReplenishmentService.deleteStockReplenishment(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/{id}/process")
-    public ResponseEntity<Object> process(@PathVariable String id) {
+    public ResponseEntity<String> replenishmentProcessing(@PathVariable String id) {
         stockReplenishmentService.replenishmentProcessing(id);
         return new ResponseEntity<>("Stock Replenishment processed", HttpStatus.OK);
     }

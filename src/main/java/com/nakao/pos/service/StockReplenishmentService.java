@@ -1,9 +1,9 @@
 package com.nakao.pos.service;
 
 import com.nakao.pos.dao.StockReplenishmentDAO;
+import com.nakao.pos.exception.DeletionException;
+import com.nakao.pos.exception.NotFoundException;
 import com.nakao.pos.util.enumeration.StockReplenishmentStatus;
-import com.nakao.pos.exception.StockReplenishmentDeletionException;
-import com.nakao.pos.exception.StockReplenishmentNotFoundException;
 import com.nakao.pos.exception.StockReplenishmentProcessingException;
 import com.nakao.pos.model.StockReplenishment;
 import com.nakao.pos.repository.ProductRepository;
@@ -41,20 +41,19 @@ public class StockReplenishmentService {
 
     public StockReplenishment getStockReplenishmentById(String id) {
         return stockReplenishmentRepository.findById(id)
-                .orElseThrow(() -> new StockReplenishmentNotFoundException("Stock Replenishment not found with ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Stock Replenishment not found with ID: " + id));
     }
 
-    public StockReplenishment createStockReplenishment(StockReplenishment stockReplenishment) {
+    public void createStockReplenishment(StockReplenishment stockReplenishment) {
         stockReplenishment.setId(UUID.randomUUID().toString());
         stockReplenishmentDAO.insert(stockReplenishment);
-        return stockReplenishment;
     }
 
-    public StockReplenishment updateStockReplenishment(String id, StockReplenishment stockReplenishment) {
+    public void updateStockReplenishment(String id, StockReplenishment stockReplenishment) {
         StockReplenishment updatedStockReplenishment = getStockReplenishmentById(id);
         BeanUtils.copyProperties(stockReplenishment, updatedStockReplenishment);
         updatedStockReplenishment.setId(id);
-        return stockReplenishmentRepository.save(updatedStockReplenishment);
+        stockReplenishmentRepository.save(updatedStockReplenishment);
     }
 
     public void deleteStockReplenishment(String id) {
@@ -62,7 +61,7 @@ public class StockReplenishmentService {
             stockReplenishmentRepository.deleteById(id);
         }
         else {
-            throw new StockReplenishmentDeletionException("Unable to delete Stock Replenishment with ID: " + id);
+            throw new DeletionException("Unable to delete Stock Replenishment with ID: " + id);
         }
     }
 

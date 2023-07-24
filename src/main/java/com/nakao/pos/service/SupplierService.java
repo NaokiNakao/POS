@@ -1,7 +1,7 @@
 package com.nakao.pos.service;
 
-import com.nakao.pos.exception.SupplierDeletionException;
-import com.nakao.pos.exception.SupplierNotFoundException;
+import com.nakao.pos.exception.DeletionException;
+import com.nakao.pos.exception.NotFoundException;
 import com.nakao.pos.model.Supplier;
 import com.nakao.pos.repository.StockReplenishmentRepository;
 import com.nakao.pos.repository.SupplierRepository;
@@ -36,26 +36,30 @@ public class SupplierService {
 
     public Supplier getSupplierById(Long id) {
         return supplierRepository.findById(id)
-                .orElseThrow(() -> new SupplierNotFoundException("Supplier not found with ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Supplier not found with ID: " + id));
     }
 
-    public Supplier createSupplier(Supplier supplier) {
-        return supplierRepository.save(supplier);
+    public void createSupplier(Supplier supplier) {
+        supplierRepository.save(supplier);
     }
 
-    public Supplier updateSupplier(Long id, Supplier supplier) {
+    public void updateSupplier(Long id, Supplier supplier) {
         Supplier updatedSupplier = getSupplierById(id);
         BeanUtils.copyProperties(supplier, updatedSupplier);
         updatedSupplier.setId(id);
-        return supplierRepository.save(updatedSupplier);
+        supplierRepository.save(updatedSupplier);
     }
 
     public void deleteSupplier(Long id) {
-        if (isValidSupplierDeletion(getSupplierById(id).getId())) {
-            supplierRepository.deleteById(id);
+        if (supplierRepository.existsById(id)) {
+            if (isValidSupplierDeletion(id)) {
+                supplierRepository.deleteById(id);
+            } else {
+                throw new DeletionException("Unable to delete Supplier with ID: " + id);
+            }
         }
         else {
-            throw new SupplierDeletionException("Unable to delete Supplier with ID: " + id);
+            throw new  NotFoundException("Supplier not found with ID: " + id);
         }
     }
 

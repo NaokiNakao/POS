@@ -1,8 +1,8 @@
 package com.nakao.pos.service;
 
 import com.nakao.pos.dao.CategoryDAO;
-import com.nakao.pos.exception.CategoryDeletionException;
-import com.nakao.pos.exception.CategoryNotFoundException;
+import com.nakao.pos.exception.DeletionException;
+import com.nakao.pos.exception.NotFoundException;
 import com.nakao.pos.exception.UniqueIdentifierGenerationException;
 import com.nakao.pos.model.Category;
 import com.nakao.pos.repository.CategoryRepository;
@@ -40,34 +40,38 @@ public class CategoryService {
 
     public Category getCategoryById(String id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found with ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Category not found with ID: " + id));
     }
 
-    public Category createCategory(Category category) {
+    public void createCategory(Category category) {
         category.setId(IdentifierGenerator.generateIdentifier(Category.ID_PATTERN));
-
-        if (!categoryRepository.existsById(category.getId())) {
-            categoryDAO.insert(category);
-            return category;
-        }
-        else {
-            throw new UniqueIdentifierGenerationException("Error generating unique identifier for Category");
-        }
+        uniqueIdVerification(category.getId());
+        categoryDAO.insert(category);
     }
 
-    public Category updateCategory(String id, Category category) {
+    public void updateCategory(String id, Category category) {
         Category updatedCategory = getCategoryById(id);
         BeanUtils.copyProperties(category, updatedCategory);
         updatedCategory.setId(id);
-        return categoryRepository.save(updatedCategory);
+        categoryRepository.save(updatedCategory);
     }
 
     public void deleteCategory(String id) {
-        if (isValidCategoryDeletion(getCategoryById(id).getId())) {
-            categoryRepository.deleteById(id);
+        if (categoryRepository.existsById(id)) {
+            if (isValidCategoryDeletion(id)) {
+                categoryRepository.deleteById(id);
+            } else {
+                throw new DeletionException("Unable to delete Category with ID: " + id);
+            }
         }
         else {
-            throw new CategoryDeletionException("Unable to delete Category with ID: " + id);
+            throw new NotFoundException("Category not found with ID: " + id);
+        }
+    }
+
+    private void uniqueIdVerification(String id) {
+        if (categoryRepository.existsById(id)) {
+            throw new UniqueIdentifierGenerationException("Error generating unique identifier for Category");
         }
     }
 

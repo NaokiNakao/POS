@@ -40,45 +40,35 @@ public class OrderService {
 
     public Order getOrderById(String  id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("Order not found with ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Order not found with ID: " + id));
     }
 
-    public Order createOrder(Order order) {
+    public void createOrder(Order order) {
         order.setId(UUID.randomUUID().toString());
-
-        if (!orderRepository.existsById(order.getId())) {
-            orderDAO.insert(order);
-            return order;
-        } else {
-            throw new UniqueIdentifierGenerationException("Error generating unique identifier for Order");
-        }
+        orderDAO.insert(order);
     }
 
-    public Order updateOrder(String id, Order order) {
+    public void updateOrder(String id, Order order) {
         Order updatedOrder = getOrderById(id);
         BeanUtils.copyProperties(order, updatedOrder);
         updatedOrder.setId(id);
-        return orderRepository.save(updatedOrder);
+        orderRepository.save(updatedOrder);
     }
 
     public void deleteOrder(String  id) {
-        Order order = getOrderById(id);
-
-        if (order.getStatus().equals(OrderStatus.IN_PROGRESS.getValue())) {
+        try {
+            validateOrderStatus(getOrderById(id));
             orderRepository.deleteById(id);
-        } else {
-            throw new OrderDeletionException("Unable to delete Order with ID: " + id);
+        }
+        catch (OrderAlreadyProcessedException e) {
+            throw new DeletionException("Unable to delete Order with ID: " + id);
         }
     }
 
-    public OrderItem addItem(String productSku, String orderId) {
-        Order order = getOrderById(orderId);
+    public void addItem(String id, OrderItem orderItem) {
+        Order order = getOrderById(id);
         validateOrderStatus(order);
-
-        OrderItem orderItem = generateOrderItem(productSku, orderId);
         updateOrderWithNewItem(order, orderItem);
-
-        return orderItem;
     }
 
     public void removeItem(String orderId, String productSku) {
@@ -90,7 +80,7 @@ public class OrderService {
             orderDAO.deleteItem(orderItemId);
             updateOrderPrice(order);
         } else {
-            throw new OrderItemNotFoundException("Order item with product SKU: " + productSku + " not found in order with ID: " + orderId);
+            throw new NotFoundException("Order item with product SKU: " + productSku + " not found in order with ID: " + orderId);
         }
     }
 
@@ -108,16 +98,9 @@ public class OrderService {
     }
 
     private void updateOrderWithNewItem(Order order, OrderItem orderItem) {
+        orderItem.setId(UUID.randomUUID().toString());
         orderDAO.insertItem(orderItem);
         updateOrderPrice(order);
-    }
-
-    private OrderItem generateOrderItem(String productSku, String orderId) {
-        return OrderItem.builder()
-                .id(UUID.randomUUID().toString())
-                .productSku(productSku)
-                .orderId(orderId)
-                .build();
     }
 
     private void updateOrderPrice(Order order) {

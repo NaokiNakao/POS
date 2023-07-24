@@ -31,7 +31,7 @@ public class OrderItem {
     private String productSku;
 
     @NotBlank(message = "Order is needed")
-    @ForeignKeyValidation(tableName = "employee", message = "Non existing order")
+    @ForeignKeyValidation(tableName = "orders", message = "Non existing order")
     private String orderId;
 
 }

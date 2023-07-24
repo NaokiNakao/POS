@@ -24,44 +24,44 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAll(@RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<List<Order>> getOrders(@RequestParam(defaultValue = "0") Integer page,
                                               @RequestParam(defaultValue = "10") Integer size) {
         List<Order> orders = orderService.getOrders(page, size);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getById(@PathVariable String id) {
+    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
         Order order = orderService.getOrderById(id);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Order> create(@RequestBody @Valid Order order) {
-        Order createdOrder = orderService.createOrder(order);
-        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+    public ResponseEntity<String > createOrder(@RequestBody @Valid Order order) {
+        orderService.createOrder(order);
+        return new ResponseEntity<>("Order created", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> update(@PathVariable String id, @RequestBody @Valid Order order) {
-        Order updatedOrder = orderService.updateOrder(id, order);
-        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
+    public ResponseEntity<String> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {
+        orderService.updateOrder(id, order);
+        return new ResponseEntity<>("Order updated", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         orderService.deleteOrder(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/{id}/items")
-    public ResponseEntity<OrderItem> addItem(@PathVariable String id, @RequestParam("product_sku") String productSku) {
-        OrderItem orderItem = orderService.addItem(productSku, id);
-        return new ResponseEntity<>(orderItem, HttpStatus.CREATED);
+    public ResponseEntity<String > addItem(@PathVariable String id, @RequestBody @Valid OrderItem orderItem) {
+        orderService.addItem(id, orderItem);
+        return new ResponseEntity<>("Order Item added", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}/items")
-    public ResponseEntity<Object> removeItem(@PathVariable String id, @RequestParam("product_sku") String productSku) {
+    public ResponseEntity<Void> removeItem(@PathVariable String id, @RequestParam("product_sku") String productSku) {
         orderService.removeItem(id, productSku);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

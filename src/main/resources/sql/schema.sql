@@ -58,14 +58,15 @@ CREATE TABLE employee (
     email      VARCHAR(255) NOT NULL,
     password   VARCHAR(255) NOT NULL,
     phone      VARCHAR(20),
-    role       VARCHAR(20),
-    CONSTRAINT UQ_employee_email UNIQUE (email)
+    role       VARCHAR(20) NOT NULL DEFAULT 'CASHIER',
+    CONSTRAINT UQ_employee_email UNIQUE (email),
+    CONSTRAINT CK_employee_role CHECK ( role IN ('CASHIER', 'MANAGER', 'ADMIN') )
 );
 
 -- Customer table
 
 CREATE TABLE customer (
-    id         VARCHAR(9) PRIMARY KEY,
+    id         VARCHAR(13) PRIMARY KEY,
     first_name VARCHAR (50) NOT NULL,
     last_name  VARCHAR(50) NOT NULL,
     phone      VARCHAR(20),

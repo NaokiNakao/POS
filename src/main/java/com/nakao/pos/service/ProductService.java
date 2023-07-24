@@ -1,9 +1,7 @@
 package com.nakao.pos.service;
 
 import com.nakao.pos.dao.ProductDAO;
-import com.nakao.pos.exception.ProductDeletionException;
-import com.nakao.pos.exception.ProductNotFoundException;
-import com.nakao.pos.exception.UniqueIdentifierGenerationException;
+import com.nakao.pos.exception.*;
 import com.nakao.pos.model.Product;
 import com.nakao.pos.repository.ProductRepository;
 import com.nakao.pos.repository.StockReplenishmentRepository;
@@ -40,34 +38,38 @@ public class ProductService {
 
     public Product getProductBySku(String sku) {
         return productRepository.findById(sku)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found with SKU: " + sku));
+                .orElseThrow(() -> new NotFoundException("Product not found with SKU: " + sku));
     }
 
-    public Product createProduct(Product product) {
+    public void createProduct(Product product) {
         product.setSku(IdentifierGenerator.generateIdentifier(Product.SKU_PATTERN));
-
-        if (!productRepository.existsById(product.getSku())) {
-            productDAO.insert(product);
-            return product;
-        }
-        else {
-            throw new UniqueIdentifierGenerationException("Error generating unique identifier for Product");
-        }
+        uniqueIdVerification(product.getSku());
+        productDAO.insert(product);
     }
 
-    public Product updateProduct(String sku, Product product) {
+    public void updateProduct(String sku, Product product) {
         Product updatedProduct = getProductBySku(sku);
         BeanUtils.copyProperties(product, updatedProduct);
         updatedProduct.setSku(sku);
-        return productRepository.save(updatedProduct);
+        productRepository.save(updatedProduct);
     }
 
     public void deleteProduct(String sku) {
-        if (isValidProductDeletion(getProductBySku(sku).getSku())) {
-            productRepository.deleteById(sku);
+        if (productRepository.existsById(sku)) {
+            if (isValidProductDeletion(getProductBySku(sku).getSku())) {
+                productRepository.deleteById(sku);
+            } else {
+                throw new DeletionException("Unable to delete Product with SKU: " + sku);
+            }
         }
         else {
-            throw new ProductDeletionException("Unable to delete Product with SKU: " + sku);
+            throw new NotFoundException("Product not found with SKU: " + sku);
+        }
+    }
+
+    private void uniqueIdVerification(String sku) {
+        if (productRepository.existsById(sku)) {
+            throw new UniqueIdentifierGenerationException("Error generating unique identifier for Product");
         }
     }
 

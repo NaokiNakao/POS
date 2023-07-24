@@ -7,6 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * @author Naoki Nakao on 7/20/2023
@@ -33,5 +34,16 @@ public interface OrderRepository extends CrudRepository<Order, String>,
             "FROM Orders o " +
             "WHERE o.customer_id = :customerId")
     Integer countByCustomerId(String customerId);
+
+    @Query("SELECT COUNT(o.id) " +
+            "FROM Orders o " +
+            "WHERE o.employee_id = :employeeId")
+    Integer countByEmployeeId(String employeeId);
+
+    @Query("SELECT o.* " +
+            "FROM Orders o " +
+            "WHERE o.employee_id = :employeeId AND o.status = :status " +
+            "LIMIT 1")
+    Optional<Order> getOrderByEmployeeIdAndStatus(String employeeId, String status);
 
 }

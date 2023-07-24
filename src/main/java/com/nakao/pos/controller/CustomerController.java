@@ -36,19 +36,19 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid Customer customer) {
-        Customer createdCustomer = customerService.createCustomer(customer);
-        return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
+    public ResponseEntity<String > createCustomer(@RequestBody @Valid Customer customer) {
+        customerService.createCustomer(customer);
+        return new ResponseEntity<>("Customer created", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable String id, @RequestBody @Valid Customer customer) {
-        Customer updatedCustomer = customerService.updateCustomer(id, customer);
-        return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+    public ResponseEntity<String > updateCustomer(@PathVariable String id, @RequestBody @Valid Customer customer) {
+        customerService.updateCustomer(id, customer);
+        return new ResponseEntity<>("Customer updated", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         customerService.deleteCustomer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

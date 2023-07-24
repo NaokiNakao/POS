@@ -23,32 +23,32 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAll(@RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<List<Product>> getProducts(@RequestParam(defaultValue = "0") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer size) {
         List<Product> products = productService.getProducts(page, size);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/{sku}")
-    public ResponseEntity<Product> getBySku(@PathVariable String sku) {
+    public ResponseEntity<Product> getProductBySku(@PathVariable String sku) {
         Product product = productService.getProductBySku(sku);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody @Valid Product product) {
-        Product createdProduct = productService.createProduct(product);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    public ResponseEntity<String > createProduct(@RequestBody @Valid Product product) {
+        productService.createProduct(product);
+        return new ResponseEntity<>("Product created", HttpStatus.CREATED);
     }
 
     @PutMapping("/{sku}")
-    public ResponseEntity<Product> update(@PathVariable String sku, @RequestBody @Valid Product product) {
-        Product updatedProduct = productService.updateProduct(sku, product);
-        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    public ResponseEntity<String > updateProduct(@PathVariable String sku, @RequestBody @Valid Product product) {
+        productService.updateProduct(sku, product);
+        return new ResponseEntity<>("Product updated", HttpStatus.OK);
     }
 
     @DeleteMapping("/{sku}")
-    public ResponseEntity<Object> delete(@PathVariable String sku) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable String sku) {
         productService.deleteProduct(sku);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
