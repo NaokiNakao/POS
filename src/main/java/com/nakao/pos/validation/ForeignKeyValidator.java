@@ -1,4 +1,4 @@
-package com.nakao.pos.util.validation;
+package com.nakao.pos.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

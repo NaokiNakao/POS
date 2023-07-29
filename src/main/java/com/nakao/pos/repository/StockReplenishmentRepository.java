@@ -20,16 +20,16 @@ public interface StockReplenishmentRepository extends CrudRepository<StockReplen
     @Query("UPDATE Stock_Replenishment sr " +
             "SET status = :status " +
             "WHERE sr.id = :id")
-    void updateStockReplenishmentStatus(String id, String status);
+    void updateStatus(String id, String status);
 
     @Query("SELECT COUNT(sr.id) " +
             "FROM Stock_Replenishment sr " +
             "WHERE sr.product_sku = :productSku")
-    Integer countStockReplenishmentByProductSku(String productSku);
+    Integer countByProductSku(String productSku);
 
     @Query("SELECT COUNT(sr.id) " +
             "FROM Stock_Replenishment sr " +
             "WHERE sr.supplier_id = :supplierId")
-    Integer countStockReplenishmentBySupplierId(Long supplierId);
+    Integer countBySupplierId(Long supplierId);
 
 }

@@ -64,7 +64,7 @@ public class SupplierService {
     }
 
     private Boolean isValidSupplierDeletion(Long id) {
-        return stockReplenishmentRepository.countStockReplenishmentBySupplierId(id) == 0;
+        return stockReplenishmentRepository.countBySupplierId(id) == 0;
     }
 
 }

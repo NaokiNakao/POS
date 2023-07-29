@@ -1,17 +1,17 @@
-package com.nakao.pos.util.enumeration;
+package com.nakao.pos.enumeration;
 
 /**
  * @author Naoki Nakao on 7/20/2023
  * @project POS
  */
-public enum OrderStatus {
+public enum StockReplenishmentStatus {
 
-    IN_PROGRESS("IN_PROGRESS"),
-    PROCESSED("PROCESSED");
+    PENDING("PENDING"),
+    DELIVERED("DELIVERED");
 
     private final String value;
 
-    OrderStatus(String value) {
+    StockReplenishmentStatus(String value) {
         this.value = value;
     }
 

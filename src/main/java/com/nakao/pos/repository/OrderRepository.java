@@ -44,6 +44,6 @@ public interface OrderRepository extends CrudRepository<Order, String>,
             "FROM Orders o " +
             "WHERE o.employee_id = :employeeId AND o.status = :status " +
             "LIMIT 1")
-    Optional<Order> getOrderByEmployeeIdAndStatus(String employeeId, String status);
+    Optional<Order> getByEmployeeIdAndStatus(String employeeId, String status);
 
 }

@@ -3,7 +3,7 @@ package com.nakao.pos.service;
 import com.nakao.pos.dao.StockReplenishmentDAO;
 import com.nakao.pos.exception.DeletionException;
 import com.nakao.pos.exception.NotFoundException;
-import com.nakao.pos.util.enumeration.StockReplenishmentStatus;
+import com.nakao.pos.enumeration.StockReplenishmentStatus;
 import com.nakao.pos.exception.StockReplenishmentProcessingException;
 import com.nakao.pos.model.StockReplenishment;
 import com.nakao.pos.repository.ProductRepository;
@@ -71,7 +71,7 @@ public class StockReplenishmentService {
         if (validateStockReplenishmentStatus(stockReplenishment)) {
             productRepository.updateStock(stockReplenishment.getProductSku(),
                     stockReplenishment.getProductQuantity());
-            stockReplenishmentRepository.updateStockReplenishmentStatus(stockReplenishment.getId(),
+            stockReplenishmentRepository.updateStatus(stockReplenishment.getId(),
                     StockReplenishmentStatus.DELIVERED.getValue());
         }
         else {

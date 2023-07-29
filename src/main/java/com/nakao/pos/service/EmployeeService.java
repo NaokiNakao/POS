@@ -7,7 +7,7 @@ import com.nakao.pos.model.Employee;
 import com.nakao.pos.repository.EmployeeRepository;
 import com.nakao.pos.repository.OrderRepository;
 import com.nakao.pos.util.IdentifierGenerator;
-import com.nakao.pos.util.mapper.EmployeeDTOMapper;
+import com.nakao.pos.dtomapper.EmployeeDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Naoki Nakao on 7/23/2023
@@ -80,6 +79,10 @@ public class EmployeeService {
         else {
             throw new NotFoundException("Employee not found with ID: " + id);
         }
+    }
+
+    public List<Employee> getEmployeesByRole(String role) {
+        return employeeRepository.getAllByRole(role);
     }
 
     private void uniqueIdVerification(String id) {

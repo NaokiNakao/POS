@@ -3,11 +3,13 @@ package com.nakao.pos.service;
 import com.nakao.pos.dao.ProductDAO;
 import com.nakao.pos.exception.*;
 import com.nakao.pos.model.Product;
+import com.nakao.pos.observer.LowStockEvent;
 import com.nakao.pos.repository.ProductRepository;
 import com.nakao.pos.repository.StockReplenishmentRepository;
 import com.nakao.pos.util.IdentifierGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductDAO productDAO;
     private final StockReplenishmentRepository stockReplenishmentRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public List<Product> getProducts(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -67,6 +70,18 @@ public class ProductService {
         }
     }
 
+    public Boolean checkForReplenishment(String sku) {
+        Product product = getProductBySku(sku);
+
+        if (product.getStock() < product.getMinStock()) {
+            LowStockEvent lowStockEvent = new LowStockEvent(product);
+            applicationEventPublisher.publishEvent(lowStockEvent);
+            return true;
+        }
+
+        return false;
+    }
+
     private void uniqueIdVerification(String sku) {
         if (productRepository.existsById(sku)) {
             throw new UniqueIdentifierGenerationException("Error generating unique identifier for Product");
@@ -74,7 +89,7 @@ public class ProductService {
     }
 
     private Boolean isValidProductDeletion(String sku) {
-        return stockReplenishmentRepository.countStockReplenishmentByProductSku(sku) == 0;
+        return stockReplenishmentRepository.countByProductSku(sku) == 0;
     }
 
 }

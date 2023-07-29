@@ -1,4 +1,4 @@
-package com.nakao.pos.util.mapper;
+package com.nakao.pos.dtomapper;
 
 import com.nakao.pos.dto.EmployeeDTO;
 import com.nakao.pos.model.Employee;
