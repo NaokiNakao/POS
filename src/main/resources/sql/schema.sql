@@ -1,5 +1,3 @@
-####################### POS Database #######################
-
 DROP DATABASE IF EXISTS pos;
 DROP SCHEMA IF EXISTS pos;
 
