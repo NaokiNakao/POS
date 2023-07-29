@@ -1,6 +1,7 @@
 package com.nakao.pos.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -21,10 +22,13 @@ public class Customer extends Person {
 
     @Id
     private String id;
+
+    @Size(max = 100, message = "The address is too long")
     private String address;
+
     private LocalDate birthday;
 
-    public static final String ID_PATTERN = "CUS######";
+    public static final String ID_PATTERN = "CUST-####-***";
 
     @Builder
     public Customer(String firstName, String lastName, String phone, String id, String address, LocalDate birthday) {
